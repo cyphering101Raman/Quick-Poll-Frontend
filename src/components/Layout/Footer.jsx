@@ -5,7 +5,7 @@ import { FaInstagram, FaTwitter, FaGithub } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className="bg-blue-900 text-gray-300 py-10">
+    <footer className="bg-gradient-to-r from-purple-700 to-blue-600 shadow-md text-gray-300 py-10 border-t border-blue-400/30">
       <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
 
         {/* Brand */}
@@ -15,7 +15,7 @@ const Footer = () => {
           </Link>
           <div>
             <h2 className="text-white font-bold text-lg">Quick Poll</h2>
-            <p className="italic text-sm text-gray-400">Ask. Vote. Decide.</p>
+            <p className="italic text-sm text-gray-300">Ask. Vote. Decide.</p>
           </div>
         </section>
 
@@ -76,7 +76,7 @@ const Footer = () => {
       </div>
 
       {/* Copyright */}
-      <div className="mt-10 text-center text-sm text-gray-500 px-4">
+      <div className="mt-10 text-center text-sm text-gray-200 px-4">
         © 2025 <span className="text-white font-medium">Quick Poll</span>. All rights reserved.
       </div>
     </footer>

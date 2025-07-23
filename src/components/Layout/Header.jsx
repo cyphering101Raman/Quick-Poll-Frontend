@@ -59,7 +59,7 @@ const Header = () => {
   ]
 
   return (
-    <header className="bg-gradient-to-r from-purple-700 to-blue-600 shadow-md text-white">
+    <header className="bg-gradient-to-r from-purple-700 to-blue-600 shadow-md text-white border-b border-purple-500/40">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
         
         {/* Logo Section */}
@@ -94,7 +94,7 @@ const Header = () => {
               <Button
                 key={link.name}
                 onClick={() => navigate(link.slug)}
-                className={`px-4 py-1 rounded-md transition font-semibold
+                className={`px-4 py-2 rounded-2xl transition font-semibold
                   ${
                     link.name === "Login" || link.name === "Sign Up"
                       ? "bg-orange-500 hover:bg-orange-600 text-white"
