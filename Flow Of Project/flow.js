@@ -6,25 +6,34 @@ quick-poll-frontend/
 │
 ├── src/
 │   ├── assets/
+│   │   └── (for images, icons, future static content)
 │   │
 │   ├── components/
 │   │   ├── Layout/
-│   │   │   ├── Header.jsx       ✅ done
-│   │   │   ├── Footer.jsx       ✅ done
-│   │   │   └── Container.jsx    ✅ done
+│   │   │   ├── Header.jsx        ✅ done
+│   │   │   ├── Footer.jsx        ✅ done
+│   │   │   └── Container.jsx     ✅ done
 │   │   │
-│   │   ├── Button.jsx           ✅ done
-│   │   ├── Logo.jsx             ✅ done
-│   │   └── index.js             ✅ exports central
+│   │   ├── PollCard.jsx          ✅ static version done
+│   │   │
+│   │   ├── Button.jsx            ✅ cleaned version
+│   │   ├── Logo.jsx              ✅ done
+│   │   └── index.js              ✅ central export
+│   │
+│   ├── pages/
+│   │   ├── Home.jsx              ✅ done
+│   │   └── Explore.jsx           ✅ in progress (static wired)
+│   │   └── (Login.jsx, Signup.jsx) ⏳ next step
 │   │
 │   ├── router/
-│   │   └── routes.js            
+│   │   └── routes.js             ✅ base routing scaffolded
 │   │
-│   ├── App.jsx                  
-│   ├── main.jsx
-│   └── index.css                
+│   ├── App.jsx                   ✅ uses layout + routes
+│   ├── main.jsx                  ✅ router hooked
+│   └── index.css                 ✅ Tailwind + theme styles
 │
-├── .gitignore                  ✅ configured
-├── package.json
-└── vite.config.js
+├── .gitignore                   ✅ configured
+├── package.json                 ✅ with react-router, tailwind, etc.
+└── vite.config.js               ✅ standard Vite config
+
 */
