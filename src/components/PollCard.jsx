@@ -1,27 +1,41 @@
 import React from 'react'
 import { Button } from './index.js'
 
-const PollCard = () => {
+const PollCard = ({
+  question,
+  options,
+  timePosted,
+  author
+}) => {
   return (
-    <div className="bg-gradient-to-br from-indigo-600 to-fuchsia-500 text-white rounded-2xl shadow-xl p-6 w-full max-w-xl mx-auto space-y-4 transition">
+    <div className="bg-gradient-to-br from-teal-500 via-indigo-600 to-pink-600 text-black rounded-2xl shadow-xl p-6 w-full max-w-xl mx-auto transition flex flex-col justify-between">
 
-      <h2 className="text-2xl font-semibold">
-        What’s your favorite programming language?
-      </h2>
+  {/* Poll Question */}
+  <h2 className="text-2xl font-semibold mb-5">
+    {question}
+  </h2>
 
-      <ul className="list-disc pl-5 space-y-1">
-        <li>JavaScript</li>
-        <li>Python</li>
-        <li>C++</li>
-        <li>Java</li>
-      </ul>
-
-      <div className="pt-2">
-        <Button className="bg-white text-fuchsia-600 hover:bg-gray-100 px-5 py-2.5 rounded-xl font-semibold">
-          Vote Now
+  {/* Options */}
+  <ul className="list-none pl-2 space-y-3">
+    {options?.map((option, idx) => (
+      <li key={idx}>
+        <Button className='bg-white text-fuchsia-700 w-full text-left px-5 py-2 rounded-xl hover:bg-gray-700 font-semibold'>
+          {option}
         </Button>
-      </div>
-    </div>
+      </li>
+    ))}
+  </ul>
+
+  {/* Spacer to push footer down */}
+  <div className="flex-grow" />
+
+  {/* Author + Time */}
+  <div className="text-sm text-gray-200 flex justify-between pt-4 border-t border-fuchsia-300/30 mt-4">
+    <span>By {author}</span>
+    <span>{timePosted}</span>
+  </div>
+</div>
+
   )
 }
 
