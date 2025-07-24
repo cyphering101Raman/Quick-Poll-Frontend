@@ -13,28 +13,17 @@
 - Logo.jsx ✅
 - PollCard.jsx ✅ (UI ready)
 
-🎨 Theme: ✅ Tailwind + brand colors  
-📄 .gitignore: ✅ configured  
-🔐 Header Login Logic: ✅ mock-ready  
-📍 Routing System: ✅ connected via react-router
 
 📄 Pages:
 - Home.jsx ✅
 - Explore.jsx ✅ (static data wiring done)
-- Login / Signup ⏳ next step
+- Login.jsx ✅ (localStorage + redux wired)
+- Signup.jsx ✅ (form validation + localStorage + redux wired)
+- ContactUs.jsx ✅ (professional layout, tested)
 
 ===============================
 🔜 NEXT STEPS (IN ORDER)
 ===============================
-
-3️⃣ 🔐 AUTH FORMS (UI only)
-- Pages: Login.jsx and Signup.jsx
-- Form UI with input fields
-- For now: simulate auth using `setUserStatus(true)`
-
-➡️ Goal: Make buttons/routes conditionally visible
-
----
 
 4️⃣ ⚒ POLL INTERACTION LOGIC
 - Inside PollCard.jsx
@@ -43,15 +32,29 @@
 
 ---
 
-5️⃣ ⚙ GLOBAL AUTH STATE
-- Phase 1: useState in App.jsx
-- Phase 2 (upgrade): Context API for global access
+5️⃣ 🧪 MOCK DATA
+- Store user list in localStorage
+- On login: check against list
+- Prevent duplicate usernames/emails
 
 ---
 
-6️⃣ 🧪 MOCK DATA (Optional but useful)
-- Fake user session (localStorage or context)
-- Fake poll list with vote counts
-- Simulate voting restrictions / vote tracking
+6️⃣ ⚙ GLOBAL AUTH STATE (Enhancement Phase)
+- Phase 1: Redux (done)
+- Phase 2: Add persistent check on page load (from localStorage)
+- Phase 3: Optional refactor to Context API if redux not preferred
+
+---
+
+7️⃣ ✅ EXPLORE PAGE PUBLIC ACCESS
+- Anyone can see polls
+- Only logged-in users can vote
+
+---
+
+8️⃣ 🌐 DEPLOYMENT READY CHECK
+- Cleanup console.logs
+- Basic 404 route
+- Mobile responsiveness
 
 */

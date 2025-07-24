@@ -22,8 +22,10 @@ quick-poll-frontend/
 │   │
 │   ├── pages/
 │   │   ├── Home.jsx              ✅ done
-│   │   └── Explore.jsx           ✅ in progress (static wired)
-│   │   └── (Login.jsx, Signup.jsx) ⏳ next step
+│   │   ├── Explore.jsx           ✅ static wired
+│   │   ├── Login.jsx             ✅ done
+│   │   └── Signup.jsx            ✅ done
+│   │   └── ContactUs.jsx         ✅ done (professional UI + responsive)
 │   │
 │   ├── router/
 │   │   └── routes.js             ✅ base routing scaffolded
