@@ -1,16 +1,20 @@
 import React from 'react'
 import { Input, Button, Logo } from "../index.js"
 import { useDispatch } from 'react-redux'
-import { registerUser } from "../../features/authSlice.js"
-import { Link } from 'react-router-dom'
+import { login } from "../../features/authSlice.js"
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
+import { saveUser } from "../../utils/localStorage.js";
 
 const SignUp = () => {
   const { register, handleSubmit, formState: { errors }, watch } = useForm();
   const dispatch = useDispatch()
+  const navigate = useNavigate();
 
   const formSubmitHandler = (userData) => {
-    dispatch(registerUser(userData));
+    dispatch(login(userData));
+        saveUser(userData);
+        navigate('/explore');
   }
 
   return (
@@ -18,7 +22,7 @@ const SignUp = () => {
 
       <div className="bg-white/50 backdrop-blur-sm text-black max-w-md w-full rounded-2xl shadow-lg p-8 space-y-6">
 
-        
+
         <div className="flex justify-center mb-4">
           <Logo />
         </div>
