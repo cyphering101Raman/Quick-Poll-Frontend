@@ -17,7 +17,7 @@ const authSlice = createSlice({
       state.userStatus = false;
       state.userData = null;
     },
-    register: (state, action) => {
+    registerUser: (state, action) => {
       state.userStatus = true;
       state.userData = action.payload;
     },
@@ -25,5 +25,5 @@ const authSlice = createSlice({
 })
 
 
-export const {login, logout, register} = authSlice.actions;
+export const {login, logout, registerUser} = authSlice.actions;
 export default authSlice.reducer;
