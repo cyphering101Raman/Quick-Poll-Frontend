@@ -9,7 +9,6 @@ import Explore from "./Explore.jsx"
 import Login from "./Authentication/Login.jsx"
 import SignUp from "./Authentication/SignUp.jsx"
 import Input from "./Input.jsx"
-import ContactUs from "./ContactUs.jsx"
 
 export{
   Header,
@@ -23,5 +22,4 @@ export{
   SignUp,
   Login,
   Input,
-  ContactUs,
 }
