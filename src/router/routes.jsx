@@ -2,7 +2,7 @@ import React from 'react'
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom'
 
 import App from '../App'
-import { Home, Explore, Login, SignUp, PageNotFound, ContactUs } from "../pages/index.js"
+import { Home, Explore, Login, SignUp, PageNotFound, ContactUs, Logout } from "../pages/index.js"
 
 import PollCard from '../components/PollCard.jsx'
 
@@ -17,6 +17,7 @@ const routes = createBrowserRouter(
       <Route path='/profile' element={<></>}/>
       <Route path='/login' element={<Login />}/>
       <Route path='/signup' element={<SignUp />}/>
+      <Route path='/Logout' element={<Logout />}/>
       <Route path='*' element={<PageNotFound />}/>
     </Route>
   )

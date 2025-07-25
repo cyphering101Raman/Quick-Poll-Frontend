@@ -8,7 +8,7 @@ const getActiveUser = () => {
   return user ? JSON.parse(user) : null;
 }
 
-const removeUser = () => {
+const removeActiveUser = () => {
   localStorage.removeItem("quickpoll-active-user")
 }
 
@@ -29,7 +29,7 @@ const getAllUser = () => {
 export {
   saveUser,
   getActiveUser,
-  removeUser,
+  removeActiveUser,
   addUserToList,
   getAllUser
 }
