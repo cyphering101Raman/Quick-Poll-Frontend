@@ -2,7 +2,7 @@ import React from 'react'
 import { Logo, Button, Input } from "../index.js"
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
-import { getAllUser } from "../../utils/localStorage.js";
+import { getAllUser, saveUser } from "../../utils/localStorage.js";
 import { useDispatch } from 'react-redux';
 import { login } from "../../features/authSlice.js"
 
@@ -19,21 +19,21 @@ const Login = () => {
     // console.log("Logged User Data: ", userData);
 
     const doesUserExist = allUser.some(user =>
-      user.username === userData.username || user.email === userData.email
+      user.username === userData.userid || user.email === userData.userid
     )
     // console.log("User exist: ",doesUserExist);
     
-
     if(!doesUserExist) setError("password", {
       type: "manual",
       message: "User does not exist. Sign Up"
     })
     else{
-      const currentUser = allUser.find(user => (user.username === userData.username || user.email === userData.email) && (user.password === userData.password)
+      const currentUser = allUser.find(user => (user.username === userData.userid || user.email === userData.userid) && (user.password === userData.password)
       );
 
       if(currentUser){
         dispatch(login(currentUser));
+        saveUser(currentUser);
         navigate("/explore");
       }
       else{
@@ -44,8 +44,6 @@ const Login = () => {
       }
 
     }
-
-
   }
 
   return (
@@ -65,10 +63,10 @@ const Login = () => {
 
         <form onSubmit={handleSubmit(loginHandler)} className="space-y-4">
           <Input
-            label="Username"
+            label="User ID"
             placeholder="Enter your username / email"
-            {...register("username", {
-              required: "Username is required"
+            {...register("userid", {
+              required: "User ID is required"
             })}
           />
 
