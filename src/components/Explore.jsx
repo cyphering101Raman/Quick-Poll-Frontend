@@ -41,7 +41,7 @@ const Explore = () => {
   ]
 
   return (
-    <section className="min-h-screen bg-gradient-to-br from-cyan-900 via-indigo-800 to-purple-700 py-12 px-4">
+    <section className="min-h-screen bg-gradient-to-r from-purple-800 via-indigo-600 to-sky-500 py-12 px-4">
 
       {/* Explore Section Heading */}
       <div className="max-w-5xl mx-auto text-center mb-12">

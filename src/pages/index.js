@@ -5,6 +5,7 @@ import Login from "./Login.jsx";
 import PageNotFound from "./PageNotFound.jsx";
 import ContactUs from "./ContactUs.jsx";
 import Logout from "./Logout.jsx";
+import CreatePoll from "./CreatePoll.jsx";
 
 export{
   Home,
@@ -14,4 +15,5 @@ export{
   PageNotFound,
   ContactUs,
   Logout,
+  CreatePoll,
 }

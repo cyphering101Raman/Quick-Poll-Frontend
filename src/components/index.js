@@ -9,6 +9,7 @@ import Explore from "./Explore.jsx"
 import Login from "./Authentication/Login.jsx"
 import SignUp from "./Authentication/SignUp.jsx"
 import Input from "./Input.jsx"
+import CreatePoll from "./CreatePoll.jsx"
 
 export{
   Header,
@@ -22,4 +23,5 @@ export{
   SignUp,
   Login,
   Input,
+  CreatePoll,
 }

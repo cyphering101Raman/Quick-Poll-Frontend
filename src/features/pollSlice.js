@@ -5,7 +5,7 @@ const initialState = {
 }
 
 const pollSlice = createSlice({
-  name: "pollData",
+  name: "poll",
   initialState,
   reducers: {
     addPoll: (state, action) => {    // add poll to List of Polls
