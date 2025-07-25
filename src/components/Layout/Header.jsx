@@ -1,13 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-
 import { Logo, Button} from "../index.js"
-
 import { FaRegSmile } from "react-icons/fa";
+import { useSelector } from 'react-redux';
 
 const Header = () => {
 
-  const [userStatus, setUserStatus] = useState(false);
+  const userStatus = useSelector((state) => state.auth.isLoggedIn)
   const navigate = useNavigate();
 
   const navLinks = [
@@ -57,6 +56,8 @@ const Header = () => {
       active: userStatus
     }
   ]
+
+  
 
   return (
     <header className="bg-gradient-to-r from-purple-700 to-blue-600 shadow-md text-white border-b border-purple-500/40">
