@@ -1,18 +1,35 @@
-const saveUser = (user) =>{
-  localStorage.setItem("quickpoll-user", JSON.stringify(user));
+// ========== ACTIVE SESSION ===========
+const saveUser = (user) => {
+  localStorage.setItem("quickpoll-active-user", JSON.stringify(user));
 }
 
-const getUser = () =>{
-  const user = localStorage.getItem("quickpoll-user")
-  return user? JSON.parse(user): null;
+const getActiveUser = () => {
+  const user = localStorage.getItem("quickpoll-active-user")
+  return user ? JSON.parse(user) : null;
 }
 
-const removeUser = () =>{
-  localStorage.removeItem("quickpoll-user")
+const removeUser = () => {
+  localStorage.removeItem("quickpoll-active-user")
 }
+
+// ========== MOCK DATABASE ==========
+
+const addUserToList = (newUser) => {
+  const existingUser = JSON.parse(localStorage.getItem("quickpoll-user-list")) || [];
+  existingUser.push(newUser);
+  localStorage.setItem("quickpoll-user-list", JSON.stringify(existingUser));
+}
+
+const getAllUser = () => {
+  const allUser = localStorage.getItem("quickpoll-user-list")
+  return allUser? JSON.parse(allUser) : []; 
+}
+
 
 export {
-  saveUser, 
-  getUser, 
-  removeUser
+  saveUser,
+  getActiveUser,
+  removeUser,
+  addUserToList,
+  getAllUser
 }
