@@ -2,40 +2,65 @@
 /*
 quick-poll-frontend/
 ├── public/
-│   └── logo.svg
+│   ├── ContactUsImage.jpg
+│   ├── Quick-Poll-Fevicon.png
+│   └── Quick-Poll-Logo.png
 │
 ├── src/
 │   ├── assets/
 │   │   └── (for images, icons, future static content)
 │   │
 │   ├── components/
+│   │   ├── Authentication/
+│   │   │   ├── Login.jsx             ✅ done (UI + logic wired)
+│   │   │   └── SignUp.jsx            ✅ done (UI + logic wired + localStorage)
 │   │   ├── Layout/
-│   │   │   ├── Header.jsx        ✅ done
-│   │   │   ├── Footer.jsx        ✅ done
-│   │   │   └── Container.jsx     ✅ done
-│   │   │
-│   │   ├── PollCard.jsx          ✅ static version done
-│   │   │
-│   │   ├── Button.jsx            ✅ cleaned version
-│   │   ├── Logo.jsx              ✅ done
-│   │   └── index.js              ✅ central export
+│   │   │   ├── Header.jsx            ✅ done
+│   │   │   ├── Footer.jsx            ✅ done
+│   │   │   └── Container.jsx         ✅ done
+│   │   ├── CreatePoll.jsx           ⏳ in progress
+│   │   ├── Explore.jsx              ✅ static wired
+│   │   ├── Home.jsx                 ✅ done
+│   │   ├── index.js                 ✅ central export
+│   │   ├── Input.jsx                ✅ reusable inputs
+│   │   ├── Logo.jsx                 ✅ done
+│   │   └── PollCard.jsx             ✅ static version done
+│   │
+│   ├── features/
+│   │   ├── authSlice.js             ✅ basic auth logic
+│   │   └── pollSlice.js             ✅ poll logic wired
 │   │
 │   ├── pages/
-│   │   ├── Home.jsx              ✅ done
-│   │   ├── Explore.jsx           ✅ static wired
-│   │   ├── Login.jsx             ✅ done
-│   │   └── Signup.jsx            ✅ done
-│   │   └── ContactUs.jsx         ✅ done (professional UI + responsive)
+│   │   ├── ContactUs.jsx            ✅ done (professional UI + responsive)
+│   │   ├── CreatePoll.jsx           ⏳ setup in progress
+│   │   ├── Explore.jsx              ✅ static wiring done
+│   │   ├── Home.jsx                 ✅ done
+│   │   ├── index.js                 ✅ optional page export
+│   │   ├── Login.jsx                ✅ wrapper for login
+│   │   ├── Logout.jsx               ⏳ placeholder
+│   │   ├── PageNotFound.jsx        ⏳ fallback page
+│   │   └── SignUp.jsx               ✅ wrapper for signup
 │   │
 │   ├── router/
-│   │   └── routes.js             ✅ base routing scaffolded
+│   │   └── routes.jsx               ✅ base routing scaffolded
 │   │
-│   ├── App.jsx                   ✅ uses layout + routes
-│   ├── main.jsx                  ✅ router hooked
-│   └── index.css                 ✅ Tailwind + theme styles
+│   ├── store/
+│   │   └── store.js                 ✅ redux store config
+│   │
+│   ├── utils/
+│   │   └── localStorage.js          ✅ user session (save/get/remove)
+│   │
+│   ├── App.jsx                      ✅ main layout and logic
+│   ├── index.css                    ✅ Tailwind + global styles
+│   └── main.jsx                     ✅ React entry point
 │
-├── .gitignore                   ✅ configured
-├── package.json                 ✅ with react-router, tailwind, etc.
-└── vite.config.js               ✅ standard Vite config
-
+├── .gitignore                      ✅ configured
+├── eslint.config.js                ✅ lint rules
+├── index.html                      ✅ vite HTML template
+├── package-lock.json               ✅ auto-generated lock
+├── package.json                    ✅ dependencies and scripts
+├── postcss.config.js               ✅ tailwind/postCSS config
+├── README.md                       ✅ project guide
+├── tailwind.config.js              ✅ tailwind customization
+└── vite.config.js                  ✅ vite bundler setup
 */
