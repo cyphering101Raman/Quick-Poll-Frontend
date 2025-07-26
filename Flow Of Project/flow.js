@@ -18,13 +18,13 @@ quick-poll-frontend/
 │   │   │   ├── Header.jsx            ✅ done
 │   │   │   ├── Footer.jsx            ✅ done
 │   │   │   └── Container.jsx         ✅ done
-│   │   ├── CreatePoll.jsx           ⏳ in progress
+│   │   ├── CreatePoll.jsx           ⏳ in progress - remove Option missing
 │   │   ├── Explore.jsx              ✅ static wired
 │   │   ├── Home.jsx                 ✅ done
 │   │   ├── index.js                 ✅ central export
 │   │   ├── Input.jsx                ✅ reusable inputs
 │   │   ├── Logo.jsx                 ✅ done
-│   │   └── PollCard.jsx             ✅ static version done
+│   │   └── PollCard.jsx             ✅ dynamic poll from localStorage done
 │   │
 │   ├── features/
 │   │   ├── authSlice.js             ✅ basic auth logic
@@ -32,13 +32,13 @@ quick-poll-frontend/
 │   │
 │   ├── pages/
 │   │   ├── ContactUs.jsx            ✅ done (professional UI + responsive)
-│   │   ├── CreatePoll.jsx           ⏳ setup in progress
+│   │   ├── CreatePoll.jsx           ✅ done
 │   │   ├── Explore.jsx              ✅ static wiring done
 │   │   ├── Home.jsx                 ✅ done
 │   │   ├── index.js                 ✅ optional page export
 │   │   ├── Login.jsx                ✅ wrapper for login
-│   │   ├── Logout.jsx               ⏳ placeholder
-│   │   ├── PageNotFound.jsx        ⏳ fallback page
+│   │   ├── Logout.jsx               ✅ done
+│   │   ├── PageNotFound.jsx         ✅ fallback page
 │   │   └── SignUp.jsx               ✅ wrapper for signup
 │   │
 │   ├── router/
@@ -49,6 +49,8 @@ quick-poll-frontend/
 │   │
 │   ├── utils/
 │   │   └── localStorage.js          ✅ user session (save/get/remove)
+│   │   └── localStoragePoll.js      ✅ poll session (setPoll/getPoll/addToPollList/getAllPoll)
+
 │   │
 │   ├── App.jsx                      ✅ main layout and logic
 │   ├── index.css                    ✅ Tailwind + global styles
