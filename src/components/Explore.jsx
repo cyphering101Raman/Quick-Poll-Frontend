@@ -1,5 +1,6 @@
 import React from 'react'
 import { PollCard } from './index.js'
+import {getAllPollData} from "../utils/localStoragePoll.js"
 
 const Explore = () => {
   const dummyPolls = [
@@ -40,6 +41,9 @@ const Explore = () => {
     }
   ]
 
+  const localPoll = getAllPollData(); // fetching from local storage.
+  
+
   return (
     <section className="min-h-screen bg-gradient-to-r from-purple-800 via-indigo-600 to-sky-500 py-12 px-4">
 
@@ -51,7 +55,7 @@ const Explore = () => {
 
       {/* Poll Cards */}
       <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-10 px-4">
-        {dummyPolls.map((poll) => (
+        {localPoll.map((poll) => (
           <PollCard key={poll.id} {...poll} />
         ))}
       </div>
