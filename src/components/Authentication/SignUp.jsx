@@ -5,35 +5,37 @@ import { login } from "../../features/authSlice.js"
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { saveUser, addUserToList, getAllUser } from "../../utils/localStorage.js";
+import axiosInstance from "../../utils/axiosInstance.js"
 
 const SignUp = () => {
   const { register, handleSubmit, formState: { errors }, watch, setError } = useForm();
   const dispatch = useDispatch()
   const navigate = useNavigate();
 
-  const formSubmitHandler = (userData) => {
+  const formSubmitHandler = async (userData) => {
+    try {
+      const res = await axiosInstance.post("/users/signup", userData)
+      console.log("Frontend SubmitHandler Res: ", res);
 
-    const allUser = getAllUser();
-    const userExist = allUser.some((user) =>
-      user.email === userData.email || user.username === userData.userName
-    )
+      const user = res.data;
 
-    if (userExist) {
-      console.log("User already exist, Login")
-      setError("confirmPassword", {
-        type: "manual",
-        message: "User already exist, login"
-      })
-    } else {
-      dispatch(login(userData));
-      console.log("Sign Up User data: ", userData);
+      console.log("Signup Success", user);
+      dispatch(login(user));
+      navigate("/explore")
 
-      saveUser(userData);
-      addUserToList(userData);
-      navigate('/explore');
-
+    } catch (error) {
+      if (error.response && error.response.data?.message) {
+        setError("confirmPassword", {
+          type: "manual",
+          message: error.response.data.message
+        })
+      } else {
+        setError("confirmPassword", {
+          type: "manual",
+          message: "Server error. Try again later."
+        });
+      }
     }
-
   }
 
   return (
