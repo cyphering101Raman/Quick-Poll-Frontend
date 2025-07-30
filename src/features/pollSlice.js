@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
   pollArray: [],
+  userPolls: [],
 }
 
 const pollSlice = createSlice({
@@ -10,14 +11,15 @@ const pollSlice = createSlice({
   reducers: {
     addPoll: (state, action) => {    // add poll to List of Polls
       state.pollArray.push(action.payload);
+      state.userPolls.push(action.payload);
     },
-    loadPolls: (state, action) => {     //loading all the polls for refresh
-      state.pollArray = action.payload;
+    loadUserPolls: (state, action) => {     //loading all the polls for refresh
+      state.userPolls = action.payload;
     },
     castVote: (state, action) => {
       const { pollId, optionIdx, userId } = action.payload;
       const poll = state.pollArray.find(poll => poll.id === pollId)
-      if (poll) {
+      if (poll && !poll.votedUsers.includes(userId)) {
         poll.options[optionIdx].voteCount += 1;
         poll.votedUsers.push(userId);
       }
@@ -25,11 +27,11 @@ const pollSlice = createSlice({
     deletePoll: (state, action) => {    // deleting the poll
       const pollId = action.payload;
       state.pollArray = state.pollArray.filter(p => p.id !== pollId)
-      state.activePoll = null;
+      state.userPolls = state.userPolls.filter(p => p.id !== pollId);
     }
   }
 })
 
-export const { addPoll, loadPolls, castVote, deletePoll } = pollSlice.actions;
+export const { addPoll, loadUserPolls, castVote, deletePoll } = pollSlice.actions;
 
 export default pollSlice.reducer;
