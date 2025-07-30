@@ -1,48 +1,28 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
+
 import { PollCard } from './index.js'
-import {getAllPollData} from "../utils/localStoragePoll.js"
+import axiosInstance from '../utils/axiosInstance.js'
 
 const Explore = () => {
-  const dummyPolls = [
-    {
-      id: 1,
-      question: "What's your favorite programming language?",
-      options: ["JavaScript", "Python", "C++", "Java", "React"],
-      author: "Alice",
-      timePosted: "2 hours ago",
-    },
-    {
-      id: 2,
-      question: "Dark mode or Light mode?",
-      options: ["Dark", "Light"],
-      author: "Bob",
-      timePosted: "30 minutes ago",
-    },
-    {
-      id: 3,
-      question: "Which frontend framework do you prefer?",
-      options: ["React", "Vue", "Angular", "Svelte"],
-      author: "Charlie",
-      timePosted: "1 day ago",
-    },
-    {
-      id: 4,
-      question: "Best way to manage state in React?",
-      options: ["Redux", "Context API", "Recoil", "Zustand"],
-      author: "DevMaster",
-      timePosted: "3 days ago",
-    },
-    {
-      id: 5,
-      question: "Do you use TypeScript?",
-      options: ["Always", "Sometimes", "Never"],
-      author: "Eve",
-      timePosted: "5 hours ago",
-    }
-  ]
 
-  const localPoll = getAllPollData(); // fetching from local storage.
-  
+  const [activePolls, setActivePolls] = useState([]);
+  const [expiredPolls, setExpiredPolls] = useState([]);
+
+  useEffect(() => {
+    const fetchPolls = async () => {
+      try {
+        const res = await axiosInstance.get("/polls");
+        const { activePolls, expiredPolls } = res.data.data;
+
+        setActivePolls(activePolls);
+        setExpiredPolls(expiredPolls);
+
+      } catch (error) {
+        console.error("Failed to fetch polls:", error);
+      }
+    }
+    fetchPolls();
+  }, [])
 
   return (
     <section className="min-h-screen bg-gradient-to-r from-purple-800 via-indigo-600 to-sky-500 py-12 px-4">
@@ -55,10 +35,24 @@ const Explore = () => {
 
       {/* Poll Cards */}
       <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-10 px-4">
-        {localPoll.map((poll) => (
-          <PollCard key={poll.id} {...poll} />
+        {activePolls?.map((poll) => (
+          <PollCard key={poll._id} {...poll} />
         ))}
       </div>
+
+      {/* Expired Polls Section */}
+      {expiredPolls.length === 0 && (
+        <div className="mt-20 max-w-5xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-white mb-1">Past Polls</h2>
+          <p className="text-gray-300 text-base mb-8">These polls have concluded. View results below.</p>
+
+          <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-10 px-4">
+            {expiredPolls.map((poll) => (
+              <PollCard key={poll._id} {...poll} />
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   )
 }
