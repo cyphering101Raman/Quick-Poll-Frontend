@@ -2,18 +2,30 @@ import React, { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import { Header, Footer } from "../index.js"
 
-import { getActiveUser } from "../../utils/localStorage.js"
 import { useDispatch } from 'react-redux'
-import {login} from "../../features/authSlice.js"
+import { login } from "../../features/authSlice.js"
+import axiosInstance from '../../utils/axiosInstance.js'
 
 const Container = ({ children, width = '100%' }) => {
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const activeUser = getActiveUser();
-    if (activeUser) dispatch(login(activeUser));
+    const hydrateUserData = async()=>{
 
+      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true"
+      if(!isLoggedIn) return;
+
+      try {
+        const res = await axiosInstance.get("/users/me");
+        dispatch(login(res.data));
+        // console.log("User hydrated:", res.data);
+      } catch (err) {
+        console.warn("Token invalid or expired:", err.message);
+      }
+    }
+    
+    hydrateUserData();
   }, [])
 
   return (
