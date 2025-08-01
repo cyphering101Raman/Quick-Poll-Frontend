@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Input, Button } from './index.js'
-import { getActiveUser } from '../utils/localStorage.js'
-import { setPollData, addToPollData, getAllPollData } from '../utils/localStoragePoll.js'
-import { v4 as randomId } from 'uuid'
+
 import { addPoll } from "../features/pollSlice.js"
 import { useDispatch, useSelector } from 'react-redux'
+import axiosInstance from '../utils/axiosInstance.js'
 
 const CreatePoll = () => {
 
-  const { register, handleSubmit, formState: { errors }, reset } = useForm()
-  const author = getActiveUser()?.fullName || getActiveUser().username;
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
+  console.log("USER STATUS", isLoggedIn);
 
+  const { register, handleSubmit, formState: { errors }, reset, clearErrors } = useForm()
   const dispatch = useDispatch()
-  const allPoll = useSelector(state => state.poll.pollArray)
+  const userSessionPolls = useSelector(state => state.poll.userPolls)
+  const [createError, setCreateError] = useState("")
 
-  const pollHandler = (pollData) => {
 
+  const pollHandler = async (pollData) => {
     const { question, ...options } = pollData;
 
     const optionArray = Object.keys(options).map(key => ({
@@ -25,32 +26,41 @@ const CreatePoll = () => {
     }))
 
     const pollPayload = {
-      id: randomId(),
       question,
       options: optionArray,
-      author,
-      votedUsers: [],
       timePosted: Date().toString(),
       expiredAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toString()
     }
-
-    dispatch(addPoll(pollPayload));
-    setPollData(pollPayload);
-    addToPollData(pollPayload);
     console.log("Current Poll data: ", pollPayload)
-    
-    reset();
+
+    try {
+      const res = await axiosInstance.post('/poll/post', pollPayload)
+
+      const createdPoll = res?.data?.data;
+      if (!createdPoll) {
+        console.error("Poll creation failed: Poll can't be posted");
+        setCreateError("Poll creation failed.");
+        return;
+      }
+
+      dispatch(addPoll(createdPoll));
+      reset();
+      setOptionCount(0);
+      setCreateError("");
+
+    } catch (error) {
+      setCreateError(error.response?.data?.message || error.message)
+    }
   }
-  
+
   const [optionCount, setOptionCount] = useState(0)
   const addOption = () => {
     if (optionCount < 3) setOptionCount(prev => prev + 1);
   }
-  
+
   useEffect(() => {
-    console.log("All Poll REDUX: ", allPoll);
-    console.log("Poll List: ", getAllPollData());
-  }, [allPoll, getAllPollData])
+    console.log("User Session Polls in REDUX: ", userSessionPolls);
+  }, [userSessionPolls, isLoggedIn])
 
   return (
     <section className="min-h-screen bg-gradient-to-br from-purple-700 to-blue-600 flex items-center justify-center py-10 px-4">
@@ -58,6 +68,10 @@ const CreatePoll = () => {
 
         <h2 className="text-3xl font-bold mb-2 text-center">Create a New Poll</h2>
         <p className="text-gray-200 text-center mb-8">Ask anything, get instant feedback.</p>
+
+        {createError && (
+          <p className="text-red-500 text-center font-medium mb-4">{createError}</p>
+        )}
 
         <form onSubmit={handleSubmit(pollHandler)} className="space-y-6">
 
@@ -83,7 +97,7 @@ const CreatePoll = () => {
                 label="Option 1"
                 placeholder="Enter option 1"
                 {...register("option1", {
-                  required: "Option is required"
+                  required: "Option 1 is required"
                 })}
               />
               {errors.option1 && <p className='text-red-400 text-sm mt-1'>{errors.option1.message}</p>}
@@ -146,13 +160,15 @@ const CreatePoll = () => {
           <div className="flex justify-between gap-4 pt-4 ">
             <Button
               type='submit'
-              className="w-full bg-sky-500 hover:bg-sky-600 text-white font-semibold py-2 rounded-xl shadow-md"
+              disabled={!isLoggedIn}
+              className={`w-full text-white font-semibold py-2 rounded-xl shadow-md transition ${!isLoggedIn ? 'bg-gray-400 cursor-not-allowed' : 'bg-sky-500 hover:bg-sky-600'}`}
             >
               Submit Poll
             </Button>
             <Button
               onClick={() => {
-                reset();
+                reset(undefined);
+                clearErrors();
                 setOptionCount(0);
               }}
               className='w-[40%] bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-xl shadow-md'
