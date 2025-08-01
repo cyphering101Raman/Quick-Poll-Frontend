@@ -10,6 +10,8 @@ import Login from "./Authentication/Login.jsx"
 import SignUp from "./Authentication/SignUp.jsx"
 import Input from "./Input.jsx"
 import CreatePoll from "./CreatePoll.jsx"
+import Dashboard from "./Dashboard.jsx"
+import PollPage from "./PollPage.jsx"
 
 export{
   Header,
@@ -24,4 +26,6 @@ export{
   Login,
   Input,
   CreatePoll,
+  Dashboard,
+  PollPage
 }

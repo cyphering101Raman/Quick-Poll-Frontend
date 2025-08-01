@@ -6,6 +6,8 @@ import PageNotFound from "./PageNotFound.jsx";
 import ContactUs from "./ContactUs.jsx";
 import Logout from "./Logout.jsx";
 import CreatePoll from "./CreatePoll.jsx";
+import DashBoard from "./DashBoard.jsx";
+import PollPage from "./PollPage.jsx";
 
 export{
   Home,
@@ -16,4 +18,6 @@ export{
   ContactUs,
   Logout,
   CreatePoll,
+  DashBoard,
+  PollPage
 }
