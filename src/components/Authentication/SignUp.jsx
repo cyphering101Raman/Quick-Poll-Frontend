@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux'
 import { login } from "../../features/authSlice.js"
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { saveUser, addUserToList, getAllUser } from "../../utils/localStorage.js";
 import axiosInstance from "../../utils/axiosInstance.js"
 
 const SignUp = () => {

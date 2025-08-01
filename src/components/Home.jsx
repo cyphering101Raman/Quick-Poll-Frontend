@@ -2,14 +2,11 @@ import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from "./index.js"
 import { login } from "../features/authSlice.js"
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 const Home = () => {
   
-  const { isLoggedIn, userData } = useSelector((state) => state.auth);
-
-  console.log("User Status: ", isLoggedIn);
-  console.log("User Data: ", userData);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   
   return (
     <section className="min-h-[calc(100vh-100px)] bg-gradient-to-r from-purple-700 to-blue-600 text-white flex flex-col items-center justify-center px-4 text-center">
