@@ -12,6 +12,7 @@ import Input from "./Input.jsx"
 import CreatePoll from "./CreatePoll.jsx"
 import Dashboard from "./Dashboard.jsx"
 import PollPage from "./PollPage.jsx"
+import Profile from "./Profile.jsx"
 
 export{
   Header,
@@ -27,5 +28,6 @@ export{
   Input,
   CreatePoll,
   Dashboard,
-  PollPage
+  PollPage,
+  Profile
 }

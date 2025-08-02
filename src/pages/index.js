@@ -8,6 +8,7 @@ import Logout from "./Logout.jsx";
 import CreatePoll from "./CreatePoll.jsx";
 import DashBoard from "./DashBoard.jsx";
 import PollPage from "./PollPage.jsx";
+import Profile from "./Profile.jsx";
 
 export{
   Home,
@@ -19,5 +20,6 @@ export{
   Logout,
   CreatePoll,
   DashBoard,
-  PollPage
+  PollPage,
+  Profile
 }
