@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button } from './index.js'
 import { Link } from 'react-router-dom';
 import axiosInstance from '../utils/axiosInstance.js';
@@ -12,7 +12,8 @@ const PollCard = ({
   createdBy,
   showDelete = false,
   showPollBtn = false,
-  onDelete
+  onDelete,
+  votedUsers
 }) => {
 
   const timepublished = new Date(createdAt).toLocaleString('en-GB', {
@@ -34,21 +35,42 @@ const PollCard = ({
   });
 
   const isExpired = new Date(expiredAt).getTime() < Date.now();
-  const author = createdBy?.fullName
 
   const [error, setError] = useState("")
+  const [userVoted, setuserVoted] = useState(false)
 
   const handleOptionVote = async (optionIndex) => {
+    if(userVoted || isExpired) return;
+
     try {
       const res = await axiosInstance.post(`/poll/vote/${_id}`, { optionIndex })
 
     } catch (error) {
-      console.error("Vote failed:", error?.response?.data?.message || error.message);
       setError(`Vote failed: ${error?.response?.data?.message || error.message}`)
 
       setTimeout(() => setError(""), 3000);
     }
   }
+
+  useEffect(() => {
+    if (!votedUsers?.length) return;
+
+    const checkUserVoted = async () => {
+      try {
+        const res = await axiosInstance.get("/users/me");
+        const userId = res.data._id;
+        if (votedUsers.some(user => user._id === userId)) {
+          setuserVoted(true);
+        }
+
+      } catch (error) {
+        console.error("Error checking vote status:", error);
+      }
+    };
+
+    checkUserVoted();
+  }, []);
+
 
   return (
     <div className="relative group bg-gradient-to-br from-teal-500 via-indigo-600 to-pink-600 text-black rounded-2xl shadow-xl p-6 w-full max-w-xl mx-auto transition flex flex-col justify-between overflow-hidden">
@@ -67,9 +89,15 @@ const PollCard = ({
 
       {/* Option Error */}
       {error && (
-        <p className="mb-5 text-md text-red-500 font-semibold text-center">
+        <div className="mb-6 px-4 py-3 rounded-xl bg-red-200/80 text-red-900 font-semibold text-center shadow-lg animate-bounce-in border border-red-400">
           {error}
-        </p>
+        </div>
+      )}
+
+      {userVoted && (
+        <div className="mb-6 px-4 py-3 rounded-xl bg-green-200/80 text-green-900 font-semibold text-center shadow-lg animate-bounce-in border border-green-400">
+          You have already voted in this poll.
+        </div>
       )}
 
       {/* Option */}
@@ -103,7 +131,7 @@ const PollCard = ({
           <span>Created By: {createdBy.fullName}</span>
           <span className='flex flex-col'>
             <span>Published: <b>{timepublished}</b></span>
-            <span>Expire: <b>{expiredTime}</b></span>
+            <span>Voting Ends: <b>{expiredTime}</b></span>
           </span>
         </div>
       )}
