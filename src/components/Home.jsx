@@ -40,7 +40,7 @@ const Home = () => {
       <div className="mt-12 grid gap-6 md:grid-cols-3 max-w-5xl w-full px-4">
         <div>
           <h3 className="text-xl font-semibold">🗳 Easy Poll Creation</h3>
-          <p className="text-gray-200 text-sm">Create and share polls in seconds—no signup required.</p>
+          <p className="text-gray-200 text-sm">Create and share polls in seconds.</p>
         </div>
         <div>
           <h3 className="text-xl font-semibold">🔒 Secure & Anonymous</h3>
