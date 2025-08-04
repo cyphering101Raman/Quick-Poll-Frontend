@@ -5,66 +5,101 @@ import { Input, Button } from './index.js'
 import { addPoll } from "../features/pollSlice.js"
 import { useDispatch, useSelector } from 'react-redux'
 import axiosInstance from '../utils/axiosInstance.js'
+import { useNavigate } from 'react-router-dom'
+
+import { toast } from 'react-toastify';
 
 const CreatePoll = () => {
 
+  const navigate = useNavigate()
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
-  console.log("USER STATUS", isLoggedIn);
-
-  const { register, handleSubmit, formState: { errors }, reset, clearErrors } = useForm()
-  const dispatch = useDispatch()
   const userSessionPolls = useSelector(state => state.poll.userPolls)
+  const dispatch = useDispatch()
+  const { register, handleSubmit, formState: { errors }, reset, clearErrors, unregister, setValue, getValues } = useForm()
+
   const [createError, setCreateError] = useState("")
+  const [extraOptions, setExtraOptions] = useState([])
+  const [hasSubmitted, setHasSubmitted] = useState(false)
+
+  useEffect(() => {
+    // console.log("User Session Polls in REDUX: ", userSessionPolls);
+  }, [userSessionPolls, isLoggedIn])
+
+  
+  // Option Logic
+  const addOption = () => {
+    if (extraOptions.length < 3) {
+      const nextOptNumber = extraOptions.length + 3;
+      setExtraOptions([...extraOptions, `option${nextOptNumber}`]);
+    }
+  };
+
+  const removeOption = (index) => {
+    const oldExtra = [...extraOptions];
+    const removed = oldExtra.splice(index, 1);
+    const currValues = getValues();
+
+    for (let i = index; i < oldExtra.length; i++) {
+      const currField = `option${i + 3}`;
+      const nextField = `option${i + 4}`;
+      setValue(currField, currValues[nextField]);
+    }
+
+    const lastField = `option${oldExtra.length + 3}`;
+    unregister(lastField);
+
+    const resequenced = oldExtra.map((_, i) => `option${i+3}`);
+    setExtraOptions(resequenced);
+  };
 
 
+  // Poll Logic
   const pollHandler = async (pollData) => {
+    setHasSubmitted(true);
     const { question, ...options } = pollData;
-
     const optionArray = Object.keys(options).map(key => ({
       text: options[key].trim(),
       voteCount: 0,
     }))
-
     const pollPayload = {
       question,
       options: optionArray,
       timePosted: Date().toString(),
       expiredAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toString()
     }
-    console.log("Current Poll data: ", pollPayload)
+
 
     try {
       const res = await axiosInstance.post('/poll/post', pollPayload)
-
       const createdPoll = res?.data?.data;
       if (!createdPoll) {
-        console.error("Poll creation failed: Poll can't be posted");
         setCreateError("Poll creation failed.");
+        toast.error("Poll creation failed");
         return;
       }
 
       dispatch(addPoll(createdPoll));
       reset();
-      setOptionCount(0);
+      setExtraOptions([]);
       setCreateError("");
+      setHasSubmitted(false);
+      toast.success("Poll created successfully! Redirecting to Explore…",{
+        autoClose: 3000
+      })
+
+      setTimeout(() => {
+        navigate('/explore')
+      }, 3000);
 
     } catch (error) {
       setCreateError(error.response?.data?.message || error.message)
+      toast.error(error.response?.data?.message || "An error occurred.");
     }
   }
 
-  const [optionCount, setOptionCount] = useState(0)
-  const addOption = () => {
-    if (optionCount < 3) setOptionCount(prev => prev + 1);
-  }
-
-  useEffect(() => {
-    console.log("User Session Polls in REDUX: ", userSessionPolls);
-  }, [userSessionPolls, isLoggedIn])
-
   return (
     <section className="min-h-screen bg-gradient-to-br from-purple-700 to-blue-600 flex items-center justify-center py-10 px-4">
-      <div className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-xl max-w-2xl w-full p-8 text-white">
+      <div className="bg-gradient-to-br from-cyan-500 via-violet-900 to-purple-900 backdrop-blur-lg rounded-2xl shadow-xl max-w-2xl w-full p-8 text-white">
 
         <h2 className="text-3xl font-bold mb-2 text-center">Create a New Poll</h2>
         <p className="text-gray-200 text-center mb-8">Ask anything, get instant feedback.</p>
@@ -74,7 +109,6 @@ const CreatePoll = () => {
         )}
 
         <form onSubmit={handleSubmit(pollHandler)} className="space-y-6">
-
           {/* Question Field */}
           <div>
             <Input
@@ -84,7 +118,7 @@ const CreatePoll = () => {
                 required: "Poll Question is required",
               })}
             />
-            {errors.question && <p className='text-red-400 text-sm mt-1'>{errors.question.message}</p>}
+            {hasSubmitted && errors.question && <p className='text-red-400 text-sm mt-1'>{errors.question.message}</p>}
           </div>
 
           {/* Options */}
@@ -100,7 +134,7 @@ const CreatePoll = () => {
                   required: "Option 1 is required"
                 })}
               />
-              {errors.option1 && <p className='text-red-400 text-sm mt-1'>{errors.option1.message}</p>}
+              {hasSubmitted && errors.option1 && <p className='text-red-400 text-sm mt-1'>{errors.option1.message}</p>}
             </div>
 
             {/* Mandatory Option 2 */}
@@ -112,44 +146,45 @@ const CreatePoll = () => {
                   required: "Option 2 is required"
                 })}
               />
-              {errors.option2 && <p className='text-red-400 text-sm mt-1'>{errors.option2.message}</p>}
+              {hasSubmitted && errors.option2 && <p className='text-red-400 text-sm mt-1'>{errors.option2.message}</p>}
             </div>
 
             {/* Additional Options */}
-            {Array.from({ length: optionCount }).map((_, idx) => {
+            {extraOptions.map((optionVariable, idx) => {
               const count = idx + 3;
-              const fieldName = `option${count}`;
               return (
-                <div key={fieldName} className="flex items-start gap-2 mb-4">
+                <div key={optionVariable} className="flex items-start gap-2 mb-4">
                   <div className="flex-1">
                     <Input
                       label={`Option ${count}`}
                       placeholder={`Enter option ${count}`}
-                      {...register(fieldName, {
+                      {...register(optionVariable, {
                         required: `Option ${count} is required`
                       })}
                     />
-                    {errors[fieldName] && (
-                      <p className="text-red-400 text-sm mt-1">{errors[fieldName].message}</p>
+                    {hasSubmitted && errors[optionVariable] && (
+                      <p className="text-red-400 text-sm mt-1">{errors[optionVariable].message}</p>
                     )}
                   </div>
-                  <Button
-                    id={fieldName}
-                    type="button"
-                    className="mt-[30px] px-3 py-2"
-                  >
-                    ❌
-                  </Button>
+                  <div className="mt-7 border border-white/30 rounded-lg p-1 bg-white/40">
+                    <Button
+                      type="button"
+                      onClick={() => removeOption(idx)}
+                      className="p-1"
+                    >
+                      ❌
+                    </Button>
+                  </div>
                 </div>
               );
             })}
 
-
             {/* Add Option Button */}
-            {optionCount < 3 &&
+            {extraOptions.length < 3 &&
               <Button
                 onClick={addOption}
                 className='w-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-2 rounded-xl shadow-md'
+                type="button"
               >
                 Add Option
               </Button>
@@ -161,22 +196,24 @@ const CreatePoll = () => {
             <Button
               type='submit'
               disabled={!isLoggedIn}
+              onClick={() => setHasSubmitted(true)}
               className={`w-full text-white font-semibold py-2 rounded-xl shadow-md transition ${!isLoggedIn ? 'bg-gray-400 cursor-not-allowed' : 'bg-sky-500 hover:bg-sky-600'}`}
             >
               Submit Poll
             </Button>
             <Button
               onClick={() => {
-                reset(undefined);
+                reset();
                 clearErrors();
-                setOptionCount(0);
+                setExtraOptions([]);
+                setHasSubmitted(false);
               }}
+              type="button"
               className='w-[40%] bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-xl shadow-md'
             >
               Discard
             </Button>
           </div>
-
         </form>
       </div>
     </section>
