@@ -4,13 +4,19 @@ import { useForm } from 'react-hook-form';
 import { FaTwitter, FaGithub, FaLinkedin } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
+import { toast } from 'react-toastify';
+
 const ContactUs = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
   const onSubmit = (data) => {
     console.log("Contact form submitted:", data);
     reset();
-    alert("Thanks for reaching out! We'll get back to you soon.");
+    toast.success("Thanks for reaching out! We'll get back to you soon.", {
+      position: "top-center",
+      autoClose: 3800,
+      theme: "colored"
+    });
   };
 
   return (
@@ -76,9 +82,9 @@ const ContactUs = () => {
           <p className="text-gray-800 font-semibold">support@quickpoll.com</p>
 
           <div className="flex justify-center gap-4 mt-4 text-xl text-gray-800">
-            <Link to=""><FaTwitter /></Link>
-            <Link to=""><FaGithub /></Link>
-            <Link to=""><FaLinkedin /></Link>
+            <Link to="https://x.com/Raman__Gupta"><FaTwitter /></Link>
+            <Link to="https://github.com/cyphering101Raman"><FaGithub /></Link>
+            <Link to="https://www.linkedin.com/in/raman--gupta/"><FaLinkedin /></Link>
           </div>
 
           <p className="text-xs text-gray-600 mt-4">Made by Quick Poll Team</p>

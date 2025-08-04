@@ -53,19 +53,19 @@ const Footer = () => {
           <h4 className="text-white font-semibold mb-2">Follow Us</h4>
           <ul className="space-y-1">
             <li>
-              <Link to="#" className="flex items-center gap-2 hover:text-white">
+              <Link to="https://www.instagram.com/me.ramangupta/" className="flex items-center gap-2 hover:text-white">
                 <FaInstagram className="w-4 h-4" />
                 <span>Instagram</span>
               </Link>
             </li>
             <li>
-              <Link to="#" className="flex items-center gap-2 hover:text-white">
+              <Link to="https://x.com/Raman__Gupta" className="flex items-center gap-2 hover:text-white">
                 <FaTwitter className="w-4 h-4" />
                 <span>Twitter</span>
               </Link>
             </li>
             <li>
-              <Link to="#" className="flex items-center gap-2 hover:text-white">
+              <Link to="https://github.com/cyphering101Raman" className="flex items-center gap-2 hover:text-white">
                 <FaGithub className="w-4 h-4" />
                 <span>Github</span>
               </Link>
