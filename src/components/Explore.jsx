@@ -18,7 +18,7 @@ const Explore = () => {
         setActivePolls(activePolls);
         setExpiredPolls(expiredPolls);
         setLoading(false)
-        
+
       } catch (error) {
         console.error("Failed to fetch polls:", error);
         setLoading(false)
@@ -47,22 +47,24 @@ const Explore = () => {
       {/* Poll Cards */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-9 gap-y-12 px-4">
         {activePolls?.map((poll) => (
-          <PollCard key={poll._id} {...poll} showPollBtn={true}/>
+          <PollCard key={poll._id} {...poll} showPollBtn={true} />
         ))}
       </div>
 
       {/* Expired Polls Section */}
       {expiredPolls.length > 0 && (
-        <div className="mt-20 max-w-5xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-white mb-1">Past Polls</h2>
-          <p className="text-gray-300 text-base mb-8">These polls have concluded. View results below.</p>
+        <>
+          <div className="mt-20 max-w-5xl mx-auto text-center">
+            <h2 className="text-3xl font-bold text-white mb-1">Past Polls</h2>
+            <p className="text-gray-300 text-base mb-8">These polls have concluded. View results below.</p>
+          </div>
 
-          <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-4">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-9 gap-y-12 px-4">
             {expiredPolls.map((poll) => (
               <PollCard key={poll._id} {...poll} showPollBtn={true} />
             ))}
           </div>
-        </div>
+        </>
       )}
     </section>
   )

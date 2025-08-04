@@ -1,4 +1,3 @@
-// DASHBAORD
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { PollCard, Button } from "./index.js";
@@ -56,7 +55,7 @@ const Dashboard = () => {
           .filter(poll => poll.votedUsers.includes(user._id))
           .sort((a, b) => new Date(b.expiredAt) - new Date(a.expiredAt));
 
-        console.log("INEREACTED POLLS", userInteractedPolls);
+        // console.log("INEREACTED POLLS", userInteractedPolls);
 
 
         setUserPolls(userCreatedPolls);
