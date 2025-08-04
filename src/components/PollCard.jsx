@@ -40,7 +40,7 @@ const PollCard = ({
   const [userVoted, setuserVoted] = useState(false)
 
   const handleOptionVote = async (optionIndex) => {
-    if(userVoted || isExpired) return;
+    if (userVoted || isExpired) return;
 
     try {
       const res = await axiosInstance.post(`/poll/vote/${_id}`, { optionIndex })
@@ -59,7 +59,8 @@ const PollCard = ({
       try {
         const res = await axiosInstance.get("/users/me");
         const userId = res.data._id;
-        if (votedUsers.some(user => user._id === userId)) {
+
+        if (votedUsers.some(user_id => user_id === userId)) {
           setuserVoted(true);
         }
 
@@ -69,7 +70,7 @@ const PollCard = ({
     };
 
     checkUserVoted();
-  }, []);
+  }, [votedUsers]);
 
 
   return (
@@ -77,10 +78,11 @@ const PollCard = ({
 
       {/* EXPIRED Watermark */}
       {isExpired && (
-        <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-[-45deg] text-6xl font-extrabold text-gray-700 opacity-50 group-hover:text-red-500 group-hover:opacity-90 transition-all duration-300 select-none z-[80]">
+        <div className="expired-stripes pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-[-45deg] text-6xl font-extrabold text-gray-100 opacity-80 select-none z-[80] flex items-center justify-center">
           EXPIRED
         </div>
       )}
+
 
       {/* Poll Question */}
       <h2 className="text-2xl text-center font-semibold mb-5 relative z-20">
@@ -102,16 +104,54 @@ const PollCard = ({
 
       {/* Option */}
       <ul className="list-none pl-2 space-y-3 relative z-20 text-lg">
-        {options?.map((option, optionIndex) => (
-          <li key={option._id}>
-            <Button
-              onClick={() => handleOptionVote(optionIndex)}
-              disabled={isExpired}
-              className='bg-white text-purple-700 w-full text-left px-5 py-2 rounded-xl hover:bg-gray-700 font-semibold'>
-              {option.text}
-            </Button>
-          </li>
-        ))}
+        {
+          (isExpired || userVoted) ? (
+            <>
+              {/* Calculate total votes */}
+              {(() => {
+                const totalVotes = options.reduce((sum, opt) => sum + opt.voteCounter, 0) || 1; // avoid 0-divide
+                return options.map((option, optionIndex) => {
+                  const percent = Math.round((option.voteCounter / totalVotes) * 100);
+                  return (
+                    <li key={option._id} className="mb-3">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="font-semibold text-gray-900">{option.text}</span>
+                        <span className="font-bold text-gray-200">{percent}%</span>
+                      </div>
+                      <div className="w-full h-4 rounded bg-gray-200 shadow-inner overflow-hidden border border-gray-300">
+                        <div
+                          className={`h-full rounded transition-all duration-700 
+                            ${percent === 0
+                              ? "bg-gray-300"
+                              : percent > 75
+                                ? "bg-gradient-to-r from-blue-400 via-blue-500 to-indigo-600"
+                                : percent > 40
+                                  ? "bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500"
+                                  : "bg-gradient-to-r from-yellow-300 via-yellow-400 to-orange-400"}
+      `}
+                          style={{ width: `${percent}%` }}
+                        />
+                      </div>
+                      <div className="text-xs text-gray-700 mt-1 font-semibold">{option.voteCounter} vote{option.voteCounter > 1 ? 's' : ''}</div>
+                    </li>
+
+                  );
+                });
+              })()}
+            </>
+          ) : (
+            options?.map((option, optionIndex) => (
+              <li key={option._id}>
+                <Button
+                  onClick={() => handleOptionVote(optionIndex)}
+                  disabled={isExpired}
+                  className='bg-white text-purple-700 w-full text-left px-5 py-2 rounded-xl hover:bg-gray-700 font-semibold'>
+                  {option.text}
+                </Button>
+              </li>
+            ))
+          )
+        }
       </ul>
 
       {/* Spacer to push footer down */}
