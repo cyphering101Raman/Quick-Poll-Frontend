@@ -22,7 +22,6 @@ const CreatePoll = () => {
   const [hasSubmitted, setHasSubmitted] = useState(false)
 
   useEffect(() => {
-    // console.log("User Session Polls in REDUX: ", userSessionPolls);
   }, [userSessionPolls, isLoggedIn])
 
   
