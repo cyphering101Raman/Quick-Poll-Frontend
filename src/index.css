@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .expired-stripes {
+    background: repeating-linear-gradient(
+      135deg,
+      #ff1a1a 0 16px,
+      #fff 16px 32px
+      );
+
+    background-size: 48px 48px;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* Animate stripes moving */
+    animation: stripes-move 1.5s linear infinite;
+  }
+
+  @keyframes stripes-move {
+    0% {
+      background-position: 0 0;
+    }
+
+    100% {
+      background-position: 48px 48px;
+    }
+  }
+}
