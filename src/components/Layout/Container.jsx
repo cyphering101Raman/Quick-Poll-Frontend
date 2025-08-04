@@ -6,6 +6,9 @@ import { useDispatch } from 'react-redux'
 import { login } from "../../features/authSlice.js"
 import axiosInstance from '../../utils/axiosInstance.js'
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Container = ({ children, width = '100%' }) => {
 
   const dispatch = useDispatch();
@@ -19,7 +22,7 @@ const Container = ({ children, width = '100%' }) => {
       try {
         const res = await axiosInstance.get("/users/me");
         dispatch(login(res.data));
-        // console.log("User hydrated:", res.data);
+        
       } catch (err) {
         console.warn("Token invalid or expired:", err.message);
       }
@@ -35,6 +38,7 @@ const Container = ({ children, width = '100%' }) => {
         <Outlet />
       </main>
       <Footer />
+      <ToastContainer position="top-center" />
     </div>
   )
 }

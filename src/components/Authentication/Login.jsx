@@ -7,6 +7,8 @@ import { useDispatch } from 'react-redux';
 import { login } from "../../features/authSlice.js"
 import axiosInstance from '../../utils/axiosInstance.js';
 
+import { toast } from 'react-toastify';
+
 const Login = () => {
 
   const { register, handleSubmit, formState: { errors }, setError } = useForm();
@@ -24,6 +26,12 @@ const Login = () => {
       dispatch(login(user));
 
       setLoginSuccessUser(user);
+
+      toast.success(`Welcome back, ${user.username}!`, {
+        position: "top-center",
+        autoClose: 3000
+      });
+
       setTimeout(() => navigate("/explore"), 2000);
 
       console.log("Login Success: ", user);
@@ -35,6 +43,10 @@ const Login = () => {
         type: "manual",
         message: error.response.data.message || "Invalid credentials"
       })
+
+      toast.error(error.response?.data?.message || "Login failed", {
+        position: "top-center"
+      });
     }
   }
 
@@ -48,7 +60,7 @@ const Login = () => {
         {loginSuccessUser ? (
           <p className="text-center text-grey-500 text-2xl font-semibold">
             Welcome back, {loginSuccessUser.username || "user"}!<br />
-            Loading your dashboard...
+            Loading Explore...
           </p>
         ) : (
           <>
