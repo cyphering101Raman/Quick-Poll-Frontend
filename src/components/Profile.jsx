@@ -3,6 +3,7 @@ import axiosInstance from "../utils/axiosInstance.js";
 import { Input, Button } from "./index.js";
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -21,11 +22,26 @@ const Profile = () => {
     user.email !== originalUser.email ||
     user.gender !== originalUser.gender;
 
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [oldPassword, setOldPassword] = useState("")
+  const [newPassword, setNewPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
 
-  const [confirmDelete, setConfirmDelete] = useState(false);
+  // password eye
+  const [showOldPassword, setShowOldPassword] = useState(false)
+  const [showNewPassword, setShowNewPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+
+  const oldPwTimeout = React.useRef(null)
+  const newPwTimeout = React.useRef(null)
+  const confirmPwTimeout = React.useRef(null)
+
+  const handleShowPassword = (setShowFn, timeoutRef) => {
+    setShowFn(true)
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => setShowFn(false), 3000);
+  };
+
+  const [confirmDelete, setConfirmDelete] = useState(false)
 
 
   const saveUserHandle = async () => {
@@ -273,35 +289,82 @@ const Profile = () => {
           <div className="w-2/3 p-8 space-y-6 text-white bg-gradient-to-b from-sky-600 via-indigo-700 to-purple-800">
             <h2 className="text-3xl font-bold text-center">Password Setting</h2>
             <div className="space-y-4 pt-4">
-              <Input
-                label="Current Password"
-                type="password"
-                value={oldPassword}
-                onChange={(e) => setOldPassword(e.target.value)}
-                placeholder="Enter your current password"
-              />
-              <Input
-                label="New Password"
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                placeholder="Enter new password"
-              />
-              <Input
-                label="Confirm New Password"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Re-enter new password"
-              />
+
+              {/* Current Password */}
+              <div className="relative">
+                <Input
+                  label="Current Password"
+                  type={showOldPassword ? "text" : "password"}
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
+                  placeholder="Enter your current password"
+                  className="pr-12"
+                />
+                <button
+                  type="button"
+                  onClick={() => handleShowPassword(setShowOldPassword, oldPwTimeout)}
+                  className="absolute right-3 top-9 text-xl text-gray-400 hover:text-gray-200"
+                  tabIndex={-1}
+                  aria-label={showOldPassword ? "Hide password" : "Show password"}
+                >
+                  {showOldPassword ? <FaEye /> : <FaEyeSlash />}
+                </button>
+              </div>
+
+              {/* New Password */}
+              <div className="relative">
+                <Input
+                  label="New Password"
+                  type={showNewPassword ? "text" : "password"}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="Enter new password"
+                  className="pr-12"
+                />
+                <button
+                  type="button"
+                  onClick={() => handleShowPassword(setShowNewPassword, newPwTimeout)}
+                  className="absolute right-3 top-9 text-xl text-gray-400 hover:text-gray-200"
+                  tabIndex={-1}
+                  aria-label={showNewPassword ? "Hide password" : "Show password"}
+                >
+                  {showNewPassword ? <FaEye /> : <FaEyeSlash />}
+                </button>
+              </div>
+
+              {/* Confirm New Password */}
+              <div className="relative">
+                <Input
+                  label="Confirm New Password"
+                  type={showConfirmPassword ? "text" : "password"}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Re-enter new password"
+                  className="pr-12"
+                />
+                <button
+                  type="button"
+                  onClick={() => handleShowPassword(setShowConfirmPassword, confirmPwTimeout)}
+                  className="absolute right-3 top-9 text-xl text-gray-400 hover:text-gray-200"
+                  tabIndex={-1}
+                  aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                >
+                  {showConfirmPassword ? <FaEye /> : <FaEyeSlash />}
+                </button>
+              </div>
 
               <div className="flex gap-4 pt-2">
                 <Button
-                  className="w-1/2 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-md"
+                  className={`w-1/2 font-semibold py-2 rounded-md transition 
+            ${(!oldPassword || !newPassword || !confirmPassword)
+                      ? "bg-green-300 text-white cursor-not-allowed opacity-60"
+                      : "bg-green-500 hover:bg-green-600 text-white"}`}
                   onClick={handlePasswordChange}
+                  disabled={!oldPassword || !newPassword || !confirmPassword}
                 >
                   Change
                 </Button>
+
                 <Button
                   onClick={() => {
                     setOldPassword("")
@@ -318,6 +381,7 @@ const Profile = () => {
           </div>
         )}
 
+
         {/* Delete Section */}
         {activeSection === 'delete' && (
           <div className="w-2/3 p-8 space-y-6 text-white bg-gradient-to-b from-sky-600 via-indigo-700 to-purple-800">
@@ -329,7 +393,7 @@ const Profile = () => {
               <div>
                 <p className="text-lg font-semibold">This action is irreversible.</p>
                 <p className="text-sm text-red-100 mt-1">
-                  Deleting your account will permanently erase all your data. You will be signed out immediately after deletion.
+                  Deleting your account will permanently erase all your personal data. <br /><b>Your polls and content will remain, but your username will be removed from them.</b><br /> You will be signed out immediately after deletion.
                 </p>
                 <div className="flex items-center gap-2 pt-4">
                   <input
