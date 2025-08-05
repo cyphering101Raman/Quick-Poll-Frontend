@@ -6,8 +6,9 @@ import { useDispatch } from 'react-redux';
 import { login } from "../../features/authSlice.js"
 import axiosInstance from '../../utils/axiosInstance.js';
 import { toast } from 'react-toastify'
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-// --- Firebase imports for Google sign-in ---
+// Firebase imports for Google sign-in
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth"
 import firebaseApp from "../../utils/firebase.js"
 
@@ -70,6 +71,16 @@ const Login = () => {
     }
   };
 
+  const [showPassword, setShowPassword] = useState(false);
+  const passwordTimeout = React.useRef(null);
+
+  const handleShowPassword = () => {
+    setShowPassword(true);
+    if (passwordTimeout.current) clearTimeout(passwordTimeout.current);
+    passwordTimeout.current = setTimeout(() => setShowPassword(false), 2000);
+  };
+
+
   return (
     <div className="py-10 min-h-[80vh] flex items-center justify-center bg-gradient-to-r from-purple-800 via-indigo-600 to-sky-500 px-4">
       <div className="bg-white/50 backdrop-blur-sm text-black max-w-md w-full rounded-2xl shadow-lg p-8 space-y-6">
@@ -107,19 +118,28 @@ const Login = () => {
                 <p className="text-red-500 text-sm">{errors.userid.message}</p>
               )}
 
-              <Input
-                label="Password"
-                type="password"
-                placeholder="Enter your password"
-                className={
-                  errors.password
-                    ? "border-red-500 bg-red-200 focus:border-red-700"
-                    : ""
-                }
-                {...register("password", {
-                  required: "Password is required"
-                })}
-              />
+              <div className="relative">
+                <Input
+                  label="Password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter your password"
+                  className={`pr-12 ${errors.password ? "border-red-500 bg-red-200 focus:border-red-700" : ""
+                    }`}
+                  {...register("password", {
+                    required: "Password is required"
+                  })}
+                />
+                <button
+                  type="button"
+                  onClick={handleShowPassword}
+                  className="absolute right-3 top-9 text-xl text-gray-500 hover:text-gray-800"
+                  tabIndex={-1}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <FaEye /> : <FaEyeSlash />}
+                </button>
+              </div>
+
               {errors.password && (
                 <p className="text-red-500 text-sm">{errors.password.message}</p>
               )}
