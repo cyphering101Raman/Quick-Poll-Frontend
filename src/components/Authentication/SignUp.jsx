@@ -5,6 +5,11 @@ import { login } from "../../features/authSlice.js"
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import axiosInstance from "../../utils/axiosInstance.js"
+import { toast } from 'react-toastify'
+
+// --- firebase imports for Google sign-in ---
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth"
+import firebaseApp from "../../utils/firebase.js"
 
 const SignUp = () => {
   const { register, handleSubmit, formState: { errors }, watch, setError } = useForm();
@@ -14,14 +19,10 @@ const SignUp = () => {
   const formSubmitHandler = async (userData) => {
     try {
       const res = await axiosInstance.post("/users/signup", userData)
-      console.log("Frontend SubmitHandler Res: ", res);
 
       const user = res.data;
-
-      console.log("Signup Success", user);
       dispatch(login(user));
       navigate("/explore")
-
     } catch (error) {
       if (error.response && error.response.data?.message) {
         setError("confirmPassword", {
@@ -37,16 +38,31 @@ const SignUp = () => {
     }
   }
 
+  const handleGoogleSignIn = async () => {
+    const toastId = toast.info("Signing you in with Google...", { autoClose: false });
+    try {
+      const auth = getAuth(firebaseApp);
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      const idToken = await user.getIdToken();
+      const res = await axiosInstance.post("/users/google-login", { credential: idToken });
+      const backendUser = res.data.data;
+      dispatch(login(backendUser));
+      toast.update(toastId, { render: `Logged in as ${backendUser.username || 'user'}`, type: "success", autoClose: 3000 });
+      navigate("/explore");
+    } catch (error) {
+      toast.update(toastId, { render: "Google login failed", type: "error", autoClose: 3000 });
+    }
+  };
+
+
   return (
     <div className="py-10 min-h-screen flex items-center justify-center bg-gradient-to-r from-purple-800 via-indigo-600 to-sky-500 px-4">
-
       <div className="bg-white/50 backdrop-blur-sm text-black max-w-md w-full rounded-2xl shadow-lg p-8 space-y-6">
-
-
         <div className="flex justify-center mb-4">
           <Logo />
         </div>
-
         <h2 className="text-2xl font-bold text-center text-gray-800">Sign up to create account</h2>
         <p className="text-center text-sm text-gray-600">
           Already have an account?{' '}
@@ -110,9 +126,15 @@ const SignUp = () => {
               minLength: {
                 value: 6,
                 message: "Min 6 characters required"
+              },
+              pattern: {
+                value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{6,}$/,
+                message:
+                  "Must include uppercase, lowercase, number, and special character"
               }
             })}
           />
+
           {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
 
           <Input
@@ -132,6 +154,21 @@ const SignUp = () => {
             Submit
           </Button>
         </form>
+
+        <div className="my-4 flex items-center">
+          <hr className="flex-grow border-t border-gray-300" />
+          <span className="mx-2 text-gray-600 font-medium text-xs">or</span>
+          <hr className="flex-grow border-t border-gray-300" />
+        </div>
+
+        {/* Google sign-in button using Firebase */}
+        <Button
+          onClick={handleGoogleSignIn}
+          className="bg-red-500 hover:bg-red-600 text-white font-medium py-2 w-full rounded-lg shadow-md mt-2"
+        >
+          Continue with Google
+        </Button>
+
       </div>
     </div>
   )

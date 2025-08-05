@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import { Logo, Button, Input } from "../index.js"
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
-
 import { useDispatch } from 'react-redux';
 import { login } from "../../features/authSlice.js"
 import axiosInstance from '../../utils/axiosInstance.js';
+import { toast } from 'react-toastify'
 
-import { toast } from 'react-toastify';
+// --- Firebase imports for Google sign-in ---
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth"
+import firebaseApp from "../../utils/firebase.js"
 
 const Login = () => {
 
@@ -24,7 +26,6 @@ const Login = () => {
       console.log("Frontend user: ", user);
 
       dispatch(login(user));
-
       setLoginSuccessUser(user);
 
       toast.success(`Welcome back, ${user.username}!`, {
@@ -49,6 +50,25 @@ const Login = () => {
       });
     }
   }
+
+  // New Google sign-in handler (Firebase Auth)
+  const handleGoogleSignIn = async () => {
+    const toastId = toast.info("Signing you in with Google...", { autoClose: false });
+    try {
+      const auth = getAuth(firebaseApp);
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      const idToken = await user.getIdToken();
+      const res = await axiosInstance.post("/users/google-login", { credential: idToken });
+      const backendUser = res.data.data;
+      dispatch(login(backendUser));
+      toast.update(toastId, { render: `Logged in as ${backendUser.username || 'user'}`, type: "success", autoClose: 3000 });
+      navigate("/explore");
+    } catch (error) {
+      toast.update(toastId, { render: "Google login failed", type: "error", autoClose: 3000 });
+    }
+  };
 
   return (
     <div className="py-10 min-h-[80vh] flex items-center justify-center bg-gradient-to-r from-purple-800 via-indigo-600 to-sky-500 px-4">
@@ -111,6 +131,19 @@ const Login = () => {
                 Login
               </Button>
             </form>
+
+            <div className="my-4 flex items-center">
+              <hr className="flex-grow border-t border-gray-300" />
+              <span className="mx-2 text-gray-600 font-medium text-xs">or</span>
+              <hr className="flex-grow border-t border-gray-300" />
+            </div>
+            {/* Google sign-in button using Firebase */}
+            <Button
+              onClick={handleGoogleSignIn}
+              className="bg-red-500 hover:bg-red-600 text-white font-medium py-2 w-full rounded-lg shadow-md mt-2"
+            >
+              Continue with Google
+            </Button>
           </>
         )}
       </div>

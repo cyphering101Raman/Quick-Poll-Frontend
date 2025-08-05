@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axiosInstance from "../utils/axiosInstance.js";
 import { Input, Button } from "./index.js";
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Profile = () => {
@@ -141,9 +141,15 @@ const Profile = () => {
 
   if (error) {
     return (
-      <div className="min-h-[80vh] bg-red-600/80 border border-red-300 text-white px-4 py-3 rounded-lg text-center flex justify-center items-center font-semibold">
-        {error}
-      </div>)
+      <main className="min-h-[80vh] flex items-center justify-center bg-gradient-to-r from-purple-800 via-indigo-600 to-sky-500 px-6 md:px-12 py-10 text-white">
+        <div className="bg-white/10 p-6 rounded-xl shadow-xl text-center">
+          <h2 className="text-2xl font-bold mb-2">Authentication Required</h2>
+          <p className="text-gray-200">
+            Please <Link to="/login" className="text-sky-400 underline hover:text-sky-300">log in</Link> to view your dashboard.
+          </p>
+        </div>
+      </main>
+    );
   }
 
   return (
