@@ -24,7 +24,7 @@ const CreatePoll = () => {
   useEffect(() => {
   }, [userSessionPolls, isLoggedIn])
 
-  
+
   // Option Logic
   const addOption = () => {
     if (extraOptions.length < 3) {
@@ -47,7 +47,7 @@ const CreatePoll = () => {
     const lastField = `option${oldExtra.length + 3}`;
     unregister(lastField);
 
-    const resequenced = oldExtra.map((_, i) => `option${i+3}`);
+    const resequenced = oldExtra.map((_, i) => `option${i + 3}`);
     setExtraOptions(resequenced);
   };
 
@@ -55,18 +55,22 @@ const CreatePoll = () => {
   // Poll Logic
   const pollHandler = async (pollData) => {
     setHasSubmitted(true);
-    const { question, ...options } = pollData;
+    const { question, expiryDays, ...options } = pollData;
     const optionArray = Object.keys(options).map(key => ({
       text: options[key].trim(),
       voteCount: 0,
     }))
+
+    const days = parseInt(expiryDays) || 7;
+
     const pollPayload = {
       question,
       options: optionArray,
       timePosted: Date().toString(),
-      expiredAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toString()
+      expiredAt: new Date(Date.now() + days * 24 * 60 * 60 * 1000).toString()
     }
 
+    console.log("CREATE-POLL payload ", pollPayload);
 
     try {
       const res = await axiosInstance.post('/poll/post', pollPayload)
@@ -82,7 +86,7 @@ const CreatePoll = () => {
       setExtraOptions([]);
       setCreateError("");
       setHasSubmitted(false);
-      toast.success("Poll created successfully! Redirecting to Explore…",{
+      toast.success("Poll created successfully! Redirecting to Explore…", {
         autoClose: 3000
       })
 
@@ -188,6 +192,25 @@ const CreatePoll = () => {
                 Add Option
               </Button>
             }
+          </div>
+
+          {/* Expiry Days Selector */}
+          <div>
+            <label htmlFor="expiryDays" className="block text-sm font-medium text-gray-200 mb-1">
+              Poll Expiry (in days)
+            </label>
+            <select
+              id="expiryDays"
+              {...register("expiryDays")}
+              defaultValue="7"
+              className="w-full bg-white/10 text-white border border-white/30 rounded-md py-2 px-3 focus:outline-none"
+            >
+              {[1, 2, 3, 5, 7, 10, 14, 30].map((day) => (
+                <option key={day} value={day} className="text-black">
+                  {day} {day === 1 ? "day" : "days"}
+                </option>
+              ))}
+            </select>
           </div>
 
           {/* Action Buttons */}
