@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 
 import { PollCard } from './index.js'
 import axiosInstance from '../utils/axiosInstance.js'
+import { Link } from 'react-router-dom'
 
 const Explore = () => {
 
@@ -46,9 +47,22 @@ const Explore = () => {
 
       {/* Poll Cards */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-9 gap-y-12 px-4">
-        {activePolls?.map((poll) => (
-          <PollCard key={poll._id} {...poll} showPollBtn={true} />
-        ))}
+        {activePolls && activePolls.length > 0 ? (
+          activePolls.map((poll) => (
+            <PollCard key={poll._id} {...poll} showPollBtn={true} />
+          ))
+        ) : (
+          <div className="col-span-full flex flex-col items-center justify-center bg-white/10 backdrop-blur-md rounded-2xl shadow-xl py-16 px-6 text-center">
+            <p className="text-gray-100 text-2xl font-medium mb-6">
+              No active polls at the moment.
+            </p>
+            <Link to="/create-poll">
+              <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-2 rounded-lg transition-all duration-200">
+                Create a New Poll
+              </button>
+            </Link>
+          </div>
+        )}
       </div>
 
       {/* Expired Polls Section */}
