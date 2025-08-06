@@ -23,17 +23,16 @@ const ContactUs = () => {
     <div className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-gradient-to-r from-purple-800 via-indigo-600 to-sky-500 px-4 py-10 gap-8">
 
       {/* Image Section */}
-      <div className="md:w-1/2 w-full flex justify-center">
+      <div className="md:w-1/2 w-full flex justify-center mb-10 md:mb-0">
         <img
           src="ContactUsImage.jpg"
           alt="Contact Illustration"
-          className="max-w-md w-full h-auto rounded-xl shadow-lg"
+          className="w-full max-w-xs sm:max-w-md h-auto rounded-xl shadow-lg"
         />
       </div>
 
       {/* Form Section */}
-      <div className="md:w-1/2 w-full bg-white/50 backdrop-blur-sm text-black rounded-2xl shadow-lg p-8 space-y-6">
-
+      <div className="md:w-1/2 w-full bg-white/50 backdrop-blur-sm text-black rounded-2xl shadow-lg p-4 md:p-8 space-y-6">
         <h1 className="text-3xl font-bold text-center text-gray-800">Contact Us</h1>
         <p className="text-center text-gray-700 text-sm">
           Have a question, suggestion, or just want to say hi? Fill out the form below.
@@ -86,7 +85,7 @@ const ContactUs = () => {
             <Link to="https://github.com/cyphering101Raman"><FaGithub /></Link>
             <Link to="https://www.linkedin.com/in/raman--gupta/"><FaLinkedin /></Link>
           </div>
-
+          
           <p className="text-xs text-gray-600 mt-4">Made by Quick Poll Team</p>
         </div>
       </div>

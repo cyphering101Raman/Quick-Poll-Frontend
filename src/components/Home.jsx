@@ -1,21 +1,21 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from "./index.js"
-import { login } from "../features/authSlice.js"
+
 import { useSelector } from 'react-redux'
 
 const Home = () => {
-  
+
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   
   return (
     <section className="min-h-[calc(100vh-100px)] bg-gradient-to-r from-purple-700 to-blue-600 text-white flex flex-col items-center justify-center px-4 text-center">
-      <h1 className="text-4xl md:text-5xl font-bold mb-4">Instant, Anonymous, Powerful Polling</h1>
-      <p className="text-gray-200 text-lg md:text-xl mb-8 max-w-2xl">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Instant, Anonymous, Powerful Polling</h1>
+      <p className="text-gray-200 text-base sm:text-lg md:text-xl mb-8 max-w-2xl">
         Quick Poll lets you create, share, and vote on polls effortlessly. No hassle. No login required for viewers.
       </p>
-
-      <div className="flex gap-4 flex-wrap justify-center">
+      
+      <div className="flex flex-wrap justify-center gap-4 mb-8">
         <Link to="/explore">
           <Button className="bg-sky-500 hover:bg-sky-600 text-white font-semibold px-6 py-3 rounded-2xl shadow">
             Explore Polls
@@ -37,17 +37,17 @@ const Home = () => {
         </Link> }
       </div>
 
-      <div className="mt-12 grid gap-6 md:grid-cols-3 max-w-5xl w-full px-4">
-        <div>
-          <h3 className="text-xl font-semibold">🗳 Easy Poll Creation</h3>
+      <div className="mt-8 grid gap-6 sm:gap-8 md:grid-cols-3 max-w-5xl w-full px-0 sm:px-4">
+        <div className="bg-white/10 rounded-xl p-6">
+          <h3 className="text-lg sm:text-xl font-semibold mb-1">🗳 Easy Poll Creation</h3>
           <p className="text-gray-200 text-sm">Create and share polls in seconds.</p>
         </div>
-        <div>
-          <h3 className="text-xl font-semibold">🔒 Secure & Anonymous</h3>
+        <div className="bg-white/10 rounded-xl p-6">
+          <h3 className="text-lg sm:text-xl font-semibold mb-1">🔒 Secure & Anonymous</h3>
           <p className="text-gray-200 text-sm">Your votes are private and secure with us.</p>
         </div>
-        <div>
-          <h3 className="text-xl font-semibold">📊 Real-time Results</h3>
+        <div className="bg-white/10 rounded-xl p-6">
+          <h3 className="text-lg sm:text-xl font-semibold mb-1">📊 Real-time Results</h3>
           <p className="text-gray-200 text-sm">Get instant feedback with live result tracking.</p>
         </div>
       </div>

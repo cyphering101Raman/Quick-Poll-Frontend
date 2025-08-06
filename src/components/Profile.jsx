@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
+
 const Profile = () => {
   const navigate = useNavigate();
 
@@ -60,7 +61,6 @@ const Profile = () => {
       })
     } catch (error) {
       console.error("Update failed:", error);
-
     }
   }
 
@@ -153,12 +153,11 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-[80vh] w-full bg-gradient-to-r from-purple-700 to-blue-600 flex items-center justify-center px-4 py-10">
-
-      <div className="w-full max-w-6xl flex bg-white/10 backdrop-blur-md rounded-2xl overflow-hidden shadow-lg">
+    <div className="min-h-[80vh] w-full bg-gradient-to-r from-purple-700 to-blue-600 flex items-center justify-center px-2 py-6">
+      <div className="w-full max-w-6xl flex flex-col md:flex-row bg-white/10 backdrop-blur-md rounded-2xl overflow-hidden shadow-lg">
 
         {/* Sidebar Buttons */}
-        <div className="w-1/3 bg-gradient-to-b from-purple-800 via-indigo-700 to-sky-600 text-white p-6 flex flex-col justify-start gap-4">
+        <div className="w-full md:w-1/3 bg-gradient-to-b from-purple-800 via-indigo-700 to-sky-600 text-white p-6 flex flex-col justify-start gap-4">
           <h2 className="text-2xl font-bold mb-4 text-center">Settings</h2>
 
           <Button
@@ -170,23 +169,25 @@ const Profile = () => {
 
           <Button
             onClick={() => setActiveSection("password")}
-            className="bg-orange-500 text-white hover:bg-orange-600 px-6 py-2 w-full">
+            className="bg-orange-500 text-white hover:bg-orange-600 px-6 py-2 w-full"
+          >
             Change Password
           </Button>
 
           <Button
             onClick={() => setActiveSection("delete")}
-            className="bg-red-600 text-white hover:bg-red-700 px-6 py-2 w-full">
+            className="bg-red-600 text-white hover:bg-red-700 px-6 py-2 w-full"
+          >
             Delete Account
           </Button>
         </div>
 
         {/* Divider */}
-        <div className="w-[3px] bg-white/30" />
+        <div className="hidden md:block w-[3px] bg-white/30" />
 
         {/* Edit Section */}
         {activeSection === 'edit' && (
-          <div className="w-2/3 p-8 space-y-6 text-white bg-gradient-to-b from-sky-600 via-indigo-700 to-purple-800">
+          <div className="w-full md:w-2/3 p-8 space-y-6 text-white bg-gradient-to-b from-sky-600 via-indigo-700 to-purple-800">
             <h2 className="text-3xl font-bold text-center">Account Details</h2>
 
             {/* Profile Fields */}
@@ -274,8 +275,6 @@ const Profile = () => {
                   Cancel
                 </Button>
               </div>
-
-
             )}
 
             {!isEditing && (
@@ -284,15 +283,14 @@ const Profile = () => {
                 className="w-full bg-orange-500 text-white hover:bg-orange-600 py-2 rounded-md font-semibold"
               >
                 Edit Profile
-              </Button>)}
-
-
-          </div>)
-        }
+              </Button>
+            )}
+          </div>
+        )}
 
         {/* Password Section */}
         {activeSection === 'password' && (
-          <div className="w-2/3 p-8 space-y-6 text-white bg-gradient-to-b from-sky-600 via-indigo-700 to-purple-800">
+          <div className="w-full md:w-2/3 p-8 space-y-6 text-white bg-gradient-to-b from-sky-600 via-indigo-700 to-purple-800">
             <h2 className="text-3xl font-bold text-center">Password Setting</h2>
             <div className="space-y-4 pt-4">
 
@@ -362,7 +360,7 @@ const Profile = () => {
               <div className="flex gap-4 pt-2">
                 <Button
                   className={`w-1/2 font-semibold py-2 rounded-md transition 
-            ${(!oldPassword || !newPassword || !confirmPassword)
+                    ${(!oldPassword || !newPassword || !confirmPassword)
                       ? "bg-green-300 text-white cursor-not-allowed opacity-60"
                       : "bg-green-500 hover:bg-green-600 text-white"}`}
                   onClick={handlePasswordChange}
@@ -387,15 +385,14 @@ const Profile = () => {
           </div>
         )}
 
-
         {/* Delete Section */}
         {activeSection === 'delete' && (
-          <div className="w-2/3 p-8 space-y-6 text-white bg-gradient-to-b from-sky-600 via-indigo-700 to-purple-800">
+          <div className="w-full md:w-2/3 p-8 space-y-6 text-white bg-gradient-to-b from-sky-600 via-indigo-700 to-purple-800">
             <h2 className="text-3xl font-bold text-center text-white-300">Delete Account</h2>
 
             {/* Alert Message */}
             <div className="bg-red-500/20 border border-red-400 
-            text-red-100 p-4 rounded-lg flex items-start gap-3">
+                text-red-100 p-4 rounded-lg flex items-start gap-3">
               <div>
                 <p className="text-lg font-semibold">This action is irreversible.</p>
                 <p className="text-sm text-red-100 mt-1">
@@ -413,7 +410,6 @@ const Profile = () => {
                     I understand the consequences of deleting my account.
                   </label>
                 </div>
-
               </div>
             </div>
 
@@ -430,7 +426,6 @@ const Profile = () => {
                 Delete My Account
               </Button>
 
-
               <Button
                 className="w-1/2 bg-gray-300 hover:bg-gray-400 text-black font-semibold py-2 rounded-md"
                 onClick={() => setActiveSection("edit")}
@@ -439,7 +434,6 @@ const Profile = () => {
               </Button>
             </div>
           </div>
-
         )}
 
       </div>

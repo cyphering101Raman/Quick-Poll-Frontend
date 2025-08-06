@@ -57,11 +57,9 @@ const Header = () => {
     }
   ]
 
-  
-
   return (
     <header className="bg-gradient-to-r from-purple-700 to-blue-600 shadow-md text-white border-b border-purple-500/40">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div className="max-w-7xl mx-auto px-4 py-3 flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
         
         {/* Logo Section */}
         <div className="text-2xl font-bold tracking-wide">
@@ -71,7 +69,7 @@ const Header = () => {
         </div>
 
         {/* Nav Links */}
-        <nav className="flex gap-4 items-center">
+        <nav className="flex flex-col gap-2 sm:flex-row sm:gap-4 sm:items-center">
           {navLinks.map((link) => (
             link.active && (
               <NavLink
@@ -89,7 +87,7 @@ const Header = () => {
         </nav>
 
         {/* Auth Links */}
-        <div className="flex gap-3 items-center">
+        <div className="flex flex-col gap-2 sm:flex-row sm:gap-3 sm:items-center">
           {authLinks.map((link) =>
             link.active && (
               <Button

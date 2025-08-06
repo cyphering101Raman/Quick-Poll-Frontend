@@ -36,8 +36,7 @@ const PollPage = () => {
     return `⏳ ${days > 0 ? `${days}d` : ""} ${hours}h ${minutes}m ${seconds}s`;
   };
 
-  // console.log("pollData", pollData);
-  
+
   useEffect(() => {
     const fetchPoll = async () => {
       try {
@@ -66,7 +65,7 @@ const PollPage = () => {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-gradient-to-r from-purple-700 to-blue-600  flex items-center justify-center text-white font-semibold">
+      <main className="min-h-screen bg-gradient-to-r from-purple-700 to-blue-600 flex items-center justify-center text-white font-semibold">
         <p className="text-2xl text-gray-200 tracking-widest animate-bounce">L o a d i n g . . .</p>
       </main>
     );
@@ -107,7 +106,7 @@ const PollPage = () => {
         <div className="w-full max-w-xl bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-lg p-6">
 
           <p className="text-gray-100 text-sm font-semibold mb-4 pl-1">🔗 Share this Poll</p>
-
+          
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="w-full sm:w-[70%]">
               <Input

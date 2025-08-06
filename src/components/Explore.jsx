@@ -30,14 +30,14 @@ const Explore = () => {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-gradient-to-r from-purple-700 to-blue-600  flex items-center justify-center text-white font-semibold">
+      <main className="min-h-screen bg-gradient-to-r from-purple-700 to-blue-600 flex items-center justify-center text-white font-semibold">
         <p className="text-2xl text-gray-200 tracking-widest animate-bounce">L o a d i n g . . .</p>
       </main>
     );
   }
 
   return (
-    <section className="min-h-[screen] bg-gradient-to-r from-purple-800 via-indigo-600 to-sky-500 py-12 px-4">
+    <section className="min-h-screen bg-gradient-to-r from-purple-800 via-indigo-600 to-sky-500 py-12 px-4">
 
       {/* Explore Section Heading */}
       <div className="max-w-5xl mx-auto text-center mb-12">
@@ -46,7 +46,7 @@ const Explore = () => {
       </div>
 
       {/* Poll Cards */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-9 gap-y-12 px-4">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 sm:gap-x-9 gap-y-8 sm:gap-y-12 px-2 sm:px-4">
         {activePolls && activePolls.length > 0 ? (
           activePolls.map((poll) => (
             <PollCard key={poll._id} {...poll} showPollBtn={true} />
@@ -73,7 +73,7 @@ const Explore = () => {
             <p className="text-gray-300 text-base mb-8">These polls have concluded. View results below.</p>
           </div>
 
-          <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-9 gap-y-12 px-4">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 sm:gap-x-9 gap-y-8 sm:gap-y-12 px-2 sm:px-4">
             {expiredPolls.map((poll) => (
               <PollCard key={poll._id} {...poll} showPollBtn={true} />
             ))}
