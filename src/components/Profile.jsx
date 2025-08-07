@@ -53,7 +53,7 @@ const Profile = () => {
         email: user.email,
         gender: user.gender
       })
-      console.log("Updated user:", res.data);
+      // console.log("Updated user:", res.data);
       setIsEditing(false)
       toast.success("Profile updated successfully!", {
         position: "top-right",
@@ -118,7 +118,7 @@ const Profile = () => {
         const res = (await axiosInstance.get("/users/me")).data;
         setUser(res);
         setOriginalUser(res)
-        console.log(res);
+        // console.log(res);
       } catch (error) {
         setError("Unable to fetch the User Data.");
       } finally {

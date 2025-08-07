@@ -70,7 +70,7 @@ const CreatePoll = () => {
       expiredAt: new Date(Date.now() + days * 24 * 60 * 60 * 1000).toString()
     }
 
-    console.log("CREATE-POLL payload ", pollPayload);
+    // console.log("CREATE-POLL payload ", pollPayload);
 
     try {
       const res = await axiosInstance.post('/poll/post', pollPayload)

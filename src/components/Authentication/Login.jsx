@@ -24,7 +24,7 @@ const Login = () => {
     try {
       const res = await axiosInstance.post("/users/login", userData);
       const user = res.data.data;
-      console.log("Frontend user: ", user);
+      // console.log("Frontend user: ", user);
 
       dispatch(login(user));
       setLoginSuccessUser(user);
@@ -36,11 +36,11 @@ const Login = () => {
 
       setTimeout(() => navigate("/explore"), 2000);
 
-      console.log("Login Success: ", user);
+      // console.log("Login Success: ", user);
 
     } catch (error) {
-      console.log(error.response.data.message);
-      console.log(error.response.data);
+      // console.log(error.response.data.message);
+      // console.log(error.response.data);
       setError("password", {
         type: "manual",
         message: error.response.data.message || "Invalid credentials"

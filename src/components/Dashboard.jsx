@@ -45,7 +45,7 @@ const Dashboard = () => {
         const { activePolls, expiredPolls } = res.data.data;
 
         const combined = [...activePolls, ...expiredPolls];
-        console.log(combined);
+        // console.log(combined);
 
         const userCreatedPolls = combined
           .filter(poll => poll.createdBy._id === user._id)

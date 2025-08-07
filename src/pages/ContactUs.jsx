@@ -10,7 +10,7 @@ const ContactUs = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
   const onSubmit = (data) => {
-    console.log("Contact form submitted:", data);
+    // console.log("Contact form submitted:", data);
     reset();
     toast.success("Thanks for reaching out! We'll get back to you soon.", {
       position: "top-center",
