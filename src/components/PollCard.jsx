@@ -13,7 +13,8 @@ const PollCard = ({
   showDelete = false,
   showPollBtn = false,
   onDelete,
-  votedUsers
+  votedUsers,
+  refreshExplore
 }) => {
 
   const timepublished = new Date(createdAt).toLocaleString('en-GB', {
@@ -44,6 +45,7 @@ const PollCard = ({
 
     try {
       const res = await axiosInstance.post(`/poll/vote/${_id}`, { optionIndex })
+      if(refreshExplore) refreshExplore();
 
     } catch (error) {
       setError(`Vote failed: ${error?.response?.data?.message || error.message}`)

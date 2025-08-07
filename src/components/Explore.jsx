@@ -9,6 +9,7 @@ const Explore = () => {
   const [activePolls, setActivePolls] = useState([]);
   const [expiredPolls, setExpiredPolls] = useState([]);
   const [loading, setLoading] = useState(true)
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     const fetchPolls = async () => {
@@ -26,7 +27,9 @@ const Explore = () => {
       }
     }
     fetchPolls();
-  }, [])
+  }, [refresh])
+
+  const refreshExplore = () => setRefresh(prev => !prev);
 
   if (loading) {
     return (
@@ -49,7 +52,7 @@ const Explore = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 sm:gap-x-9 gap-y-8 sm:gap-y-12 px-2 sm:px-4">
         {activePolls && activePolls.length > 0 ? (
           activePolls.map((poll) => (
-            <PollCard key={poll._id} {...poll} showPollBtn={true} />
+            <PollCard key={poll._id} {...poll} showPollBtn={true} refreshExplore={refreshExplore} />
           ))
         ) : (
           <div className="col-span-full flex flex-col items-center justify-center bg-white/10 backdrop-blur-md rounded-2xl shadow-xl py-16 px-6 text-center">
