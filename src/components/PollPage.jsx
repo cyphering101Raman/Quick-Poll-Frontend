@@ -8,6 +8,7 @@ const PollPage = () => {
   const [pollData, setPollData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [timeLeft, setTimeLeft] = useState("")
+  const [refresh, setRefresh] = useState(false);
 
   const [copied, setCopied] = useState(false);
 
@@ -61,7 +62,9 @@ const PollPage = () => {
     };
 
     fetchPoll();
-  }, [id]);
+  }, [id, refresh]);
+
+  const refreshPollPage = ()=> setRefresh(prev => !prev)
 
   if (loading) {
     return (
@@ -81,7 +84,7 @@ const PollPage = () => {
 
   return (
     <main className="min-h-[75vh] bg-gradient-to-br from-purple-800 via-indigo-700 to-blue-600 text-white py-10 px-4">
-      <PollCard key={pollData._id} {...pollData} />
+      <PollCard key={pollData._id} {...pollData} refreshExplore={refreshPollPage}/>
 
       {/* Poll Status */}
       <div className="relative bg-gradient-to-br from-pink-600 via-indigo-600 to-teal-500 text-black rounded-2xl shadow-xl p-6 w-full max-w-xl mx-auto mt-5 transition overflow-hidden">
