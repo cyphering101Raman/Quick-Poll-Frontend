@@ -8,7 +8,6 @@ const PollPage = () => {
   const [pollData, setPollData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [timeLeft, setTimeLeft] = useState("")
-  const [refresh, setRefresh] = useState(false);
 
   const [copied, setCopied] = useState(false);
 
@@ -62,9 +61,7 @@ const PollPage = () => {
     };
 
     fetchPoll();
-  }, [id, refresh]);
-
-  const refreshPollPage = ()=> setRefresh(prev => !prev)
+  }, [id]);
 
   if (loading) {
     return (
@@ -84,7 +81,9 @@ const PollPage = () => {
 
   return (
     <main className="min-h-[75vh] bg-gradient-to-br from-purple-800 via-indigo-700 to-blue-600 text-white py-10 px-4">
-      <PollCard key={pollData._id} {...pollData} refreshExplore={refreshPollPage}/>
+      <PollCard key={pollData._id} 
+      {...pollData} 
+      votedUsers={pollData?.votedUsers?.map(userObj => userObj._id)} />
 
       {/* Poll Status */}
       <div className="relative bg-gradient-to-br from-pink-600 via-indigo-600 to-teal-500 text-black rounded-2xl shadow-xl p-6 w-full max-w-xl mx-auto mt-5 transition overflow-hidden">
@@ -109,7 +108,7 @@ const PollPage = () => {
         <div className="w-full max-w-xl bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-lg p-6">
 
           <p className="text-gray-100 text-sm font-semibold mb-4 pl-1">🔗 Share this Poll</p>
-          
+
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="w-full sm:w-[70%]">
               <Input
