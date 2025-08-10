@@ -48,7 +48,7 @@ const Dashboard = () => {
         // console.log(combined);
 
         const userCreatedPolls = combined
-          .filter(poll => poll.createdBy._id === user._id)
+          .filter(poll => poll.createdBy?._id === user._id)
           .sort((a, b) => new Date(b.expiredAt) - new Date(a.expiredAt));
 
         const userInteractedPolls = combined
