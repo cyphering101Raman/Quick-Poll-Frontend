@@ -22,6 +22,7 @@ const SignUp = () => {
 
       const user = res.data;
       dispatch(login(user));
+      toast.success(`Signed up successfully. Welcome, ${user.username || 'user'}!`, { autoClose: 3000 });
       navigate("/explore")
     } catch (error) {
       if (error.response && error.response.data?.message) {
