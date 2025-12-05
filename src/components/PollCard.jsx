@@ -162,7 +162,7 @@ const PollCard = ({
       {/* Author + Time */}
       {showPollBtn && (
         <div className="text-sm text-gray-200 flex justify-between pt-4 border-t border-fuchsia-300/30 mt-4 relative z-20">
-          <span>By {createdBy.fullName}</span>
+          <span>By {createdBy?.fullName || '[Deleted]'}</span>
           <span>Published: {timepublished}</span>
         </div>
       )}
@@ -170,7 +170,7 @@ const PollCard = ({
       {/* Poll Page */}
       {!showPollBtn && (
         <div className="text-md text-gray-200 flex justify-between pt-4 border-t border-fuchsia-300/30 mt-4 relative z-20">
-          <span>Created By: {createdBy.fullName}</span>
+          <span>Created By: {createdBy?.fullName || '[Deleted]'}</span>
           <span className='flex flex-col'>
             <span>Published: <b>{timepublished}</b></span>
             <span>Voting Ends: <b>{expiredTime}</b></span>

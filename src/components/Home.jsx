@@ -47,8 +47,8 @@ const Home = () => {
           <p className="text-gray-200 text-sm">Your votes are private and secure with us.</p>
         </div>
         <div className="bg-white/10 rounded-xl p-6">
-          <h3 className="text-lg sm:text-xl font-semibold mb-1">📊 Real-time Results</h3>
-          <p className="text-gray-200 text-sm">Get instant feedback with live result tracking.</p>
+          <h3 className="text-lg sm:text-xl font-semibold mb-1">📊 Instant Updates</h3>
+          <p className="text-gray-200 text-sm">Get up-to-date results with automatic refresh.</p>
         </div>
       </div>
     </section>

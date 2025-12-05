@@ -33,9 +33,16 @@ const Explore = () => {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-gradient-to-r from-purple-700 to-blue-600 flex items-center justify-center text-white font-semibold">
-        <p className="text-2xl text-gray-200 tracking-widest animate-bounce">L o a d i n g . . .</p>
-      </main>
+      <div className="min-h-[60vh] flex items-center justify-center bg-gradient-to-r from-purple-700 to-blue-600">
+        <img
+          src="/Quick-Poll-Logo.webp"
+          alt="QuickPoll Logo"
+          className="w-40 h-40 animate-pulse-fade-zoom"
+          width="160"
+          height="160"
+        />
+      </div>
+
     );
   }
 
