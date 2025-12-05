@@ -21,12 +21,13 @@ const ContactUs = () => {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-gradient-to-r from-purple-800 via-indigo-600 to-sky-500 px-4 py-10 gap-8">
-
-      {/* Image Section */}
+        
       <div className="md:w-1/2 w-full flex justify-center mb-10 md:mb-0">
         <img
-          src="ContactUsImage.jpg"
+          src="/ContactUsImage.webp"
           alt="Contact Illustration"
+          width={600}
+          height={400}
           className="w-full max-w-xs sm:max-w-md h-auto rounded-xl shadow-lg"
         />
       </div>

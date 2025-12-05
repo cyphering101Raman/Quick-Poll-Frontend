@@ -1,14 +1,16 @@
-import React from 'react'
+import React from 'react';
 
-const Logo = ({width="100px",
-  className=''
-}) => {
+const Logo = ({ width = "100px", className = "" }) => {
   return (
-    <>
-        <img src="/Quick-Poll-Logo.png" alt="Logo" style={{width}}
-        className={`${className} rounded-3xl`}/>
-        </>
-  )
-}
+    <img
+      src="/Quick-Poll-Logo.webp"
+      alt="Logo"
+      width={width}
+      height={width}
+      className={`rounded-3xl ${className}`}
+      style={{ width }}
+    />
+  );
+};
 
-export default Logo
+export default Logo;
